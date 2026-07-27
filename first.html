@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>QuestPath | Cybersecurity Specialist Skill Tree</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error": "#ffb4ab",
+                        "tertiary-container": "#cea700",
+                        "surface-dim": "#0b1326",
+                        "primary": "#ddb7ff",
+                        "tertiary": "#efc200",
+                        "surface-container-low": "#131b2e",
+                        "on-surface": "#dae2fd",
+                        "on-primary-container": "#400071",
+                        "surface-container-highest": "#2d3449",
+                        "surface-container": "#171f33",
+                        "primary-container": "#b76dff",
+                        "inverse-primary": "#842bd2",
+                        "on-background": "#dae2fd",
+                        "outline": "#988d9f",
+                        "surface": "#0b1326",
+                        "tertiary-fixed-dim": "#eec200",
+                        "surface-bright": "#31394d",
+                        "secondary-fixed-dim": "#2fd9f4",
+                        "tertiary-fixed": "#ffe083",
+                        "background": "#0b1326",
+                        "on-secondary-fixed": "#001f25",
+                        "inverse-on-surface": "#283044",
+                        "surface-container-lowest": "#060e20",
+                        "surface-tint": "#ddb7ff",
+                        "on-secondary": "#00363e",
+                        "on-secondary-fixed-variant": "#004e5a",
+                        "on-tertiary-fixed": "#231b00",
+                        "on-error": "#690005",
+                        "inverse-surface": "#dae2fd",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary-fixed-variant": "#574500",
+                        "secondary-container": "#00cbe6",
+                        "primary-fixed": "#f0dbff",
+                        "surface-container-high": "#222a3d",
+                        "on-surface-variant": "#cfc2d6",
+                        "outline-variant": "#4d4354",
+                        "secondary": "#5de6ff",
+                        "error-container": "#93000a",
+                        "surface-variant": "#2d3449",
+                        "on-primary-fixed": "#2c0051",
+                        "on-secondary-container": "#00515d",
+                        "on-tertiary-container": "#4e3e00",
+                        "secondary-fixed": "#a2eeff",
+                        "primary-fixed-dim": "#ddb7ff",
+                        "on-primary-fixed-variant": "#6900b3",
+                        "on-primary": "#490080",
+                        "on-tertiary": "#3c2f00"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sm": "12px",
+                        "xl": "64px",
+                        "gutter": "24px",
+                        "base": "8px",
+                        "margin-mobile": "16px",
+                        "lg": "40px",
+                        "md": "24px",
+                        "xs": "4px",
+                        "margin-desktop": "32px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Geist"],
+                        "headline-lg": ["Geist"],
+                        "headline-md": ["Geist"],
+                        "body-md": ["Geist"],
+                        "label-sm": ["JetBrains Mono"],
+                        "body-lg": ["Geist"],
+                        "code-md": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "1", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "code-md": ["14px", {"lineHeight": "1.6", "fontWeight": "450"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .grid-bg {
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+        .neon-glow-cyan {
+            box-shadow: 0 0 15px 0 rgba(93, 230, 255, 0.4);
+        }
+        .neon-glow-purple {
+            box-shadow: 0 0 15px 0 rgba(221, 183, 255, 0.4);
+        }
+        .pulse-cyan {
+            animation: pulse-cyan 2s infinite ease-in-out;
+        }
+        @keyframes pulse-cyan {
+            0%, 100% { box-shadow: 0 0 5px 0 rgba(93, 230, 255, 0.3); }
+            50% { box-shadow: 0 0 20px 5px rgba(93, 230, 255, 0.6); }
+        }
+        .skill-line {
+            background: linear-gradient(90deg, transparent, #5de6ff, transparent);
+            height: 2px;
+            filter: blur(0.5px);
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b1326;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2d3449;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4d4354;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md overflow-hidden selection:bg-primary/30">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center px-gutter py-xs w-full sticky top-0 z-50 bg-surface-container/70 dark:bg-surface-container/70 backdrop-blur-md border-b border-outline-variant/30 shadow-[0_0_15px_rgba(221,183,255,0.1)]">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary" data-icon="terminal">terminal</span>
+<h1 class="font-display-lg text-headline-md font-extrabold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-secondary to-primary">QuestPath</h1>
+</div>
+<div class="hidden md:flex flex-1 max-w-xl mx-lg items-center gap-md">
+<div class="flex flex-col flex-1 gap-xs">
+<div class="flex justify-between items-end">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Shinobi Lv.12</span>
+<span class="font-label-sm text-label-sm text-primary">1,420 / 2,000 XP</span>
+</div>
+<div class="h-2 w-full bg-surface-container-highest rounded-full overflow-hidden border border-white/5">
+<div class="h-full bg-gradient-to-r from-secondary to-primary" style="width: 71%"></div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<div class="flex gap-sm items-center mr-sm">
+<img alt="Regional Badge" class="w-10 h-10 object-contain drop-shadow-[0_0_5px_rgba(93,230,255,0.5)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGFqiB_eJqvZib7hujh5RtksTM6Cifm0X3DzfmdzdgOXUckae5ZiOdTGyPeOoWgnhQn0rbd9c9zxFY_jDzEX7isD-zNgAxxx2ALRYpy9d0kDVSBJJTTchyY55ImkzIZ29dvpgv8sivwW-95AcMe2p3nRFZSw7ouLXXjEUtmZcjt7h90wVokkhPvEfLt5DA95xSng8FOrhsylqEcM10j0z9aSfTQNq7fQjEv2ysYcxbmCBIQHzyYLs7oNxy4HIIkKKVu2WKkmJh3P_B"/>
+<div class="hidden lg:block text-right">
+<p class="font-headline-md text-label-sm text-on-surface leading-tight">Nagpur #4</p>
+<p class="font-label-sm text-[10px] text-secondary-fixed-dim uppercase">Regional Rank</p>
+</div>
+</div>
+<div class="flex items-center gap-sm pr-sm border-r border-outline-variant/30">
+<button class="hover:bg-white/5 transition-all duration-300 p-xs rounded-full relative">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="notifications">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="hover:bg-white/5 transition-all duration-300 p-xs rounded-full">
+<span class="material-symbols-outlined text-tertiary" data-icon="workspace_premium" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+</button>
+</div>
+<div class="flex items-center gap-sm pl-sm">
+<div class="w-10 h-10 rounded-lg overflow-hidden border border-primary/50 neon-glow-purple">
+<img alt="Cyber Shinobi Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8mD7Qad_ZxBE7eybKaB86XwKdHqTkZ-hsLLMPAJTjXin6X6vdvz89Jv-99iOYxm6xqe0vM6mx_urWlf7-wkdqa39kGYdt4wpt_2bFGF9R-jVwpD-fZ52LdxwaHjT6fpRdoE2W9HyQnAwnr_5DLOJJQPTWwV4MjXyyszA6r-xLeawuKjg3ubhWVOVmjnbQ59xin3_4BdvQnZB0HAm7kqad9mDuCW-HnADL5ZJs36LSMPzepAesE8Z3tNSfa2YY01cGTAuhLthWb_3I"/>
+</div>
+</div>
+</div>
+</header>
+<div class="flex h-[calc(100vh-64px)] overflow-hidden">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full flex flex-col pt-24 pb-8 z-40 h-screen w-64 border-r border-outline-variant/20 border-r border-white/5 bg-gradient-to-b from-surface-container-lowest to-background">
+<div class="px-gutter mb-lg">
+<div class="flex items-center gap-sm">
+<div class="w-12 h-12 rounded-full border-2 border-secondary overflow-hidden">
+<img alt="Cyber Shinobi profile level 12" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8mD7Qad_ZxBE7eybKaB86XwKdHqTkZ-hsLLMPAJTjXin6X6vdvz89Jv-99iOYxm6xqe0vM6mx_urWlf7-wkdqa39kGYdt4wpt_2bFGF9R-jVwpD-fZ52LdxwaHjT6fpRdoE2W9HyQnAwnr_5DLOJJQPTWwV4MjXyyszA6r-xLeawuKjg3ubhWVOVmjnbQ59xin3_4BdvQnZB0HAm7kqad9mDuCW-HnADL5ZJs36LSMPzepAesE8Z3tNSfa2YY01cGTAuhLthWb_3I"/>
+</div>
+<div>
+<h3 class="font-headline-md text-label-sm text-on-surface leading-tight">Shinobi Lv.12</h3>
+<p class="font-label-sm text-[10px] text-on-surface-variant">Rank: Nagpur #4</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-xs">
+<!-- Skill Tree Active -->
+<a class="flex items-center gap-sm bg-secondary/10 text-secondary border-l-4 border-secondary px-md py-sm rounded-r-xl hover:translate-x-1 duration-200 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="account_tree" style="font-variation-settings: 'FILL' 1;">account_tree</span>
+<span class="font-label-sm text-label-sm">Skill Tree</span>
+</a>
+<a class="flex items-center gap-sm text-on-surface-variant hover:text-on-surface px-md py-sm transition-colors hover:translate-x-1 duration-200 transition-transform hover:bg-surface-container-high/50" href="#">
+<span class="material-symbols-outlined" data-icon="military_tech">military_tech</span>
+<span class="font-label-sm text-label-sm">Daily Quests</span>
+</a>
+<a class="flex items-center gap-sm text-on-surface-variant hover:text-on-surface px-md py-sm transition-colors hover:translate-x-1 duration-200 transition-transform hover:bg-surface-container-high/50" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-label-sm text-label-sm">Inventory</span>
+</a>
+<a class="flex items-center gap-sm text-on-surface-variant hover:text-on-surface px-md py-sm transition-colors hover:translate-x-1 duration-200 transition-transform hover:bg-surface-container-high/50" href="#">
+<span class="material-symbols-outlined" data-icon="leaderboard">leaderboard</span>
+<span class="font-label-sm text-label-sm">Leaderboard</span>
+</a>
+<a class="flex items-center gap-sm text-on-surface-variant hover:text-on-surface px-md py-sm transition-colors hover:translate-x-1 duration-200 transition-transform hover:bg-surface-container-high/50" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-sm text-label-sm">Settings</span>
+</a>
+</nav>
+<div class="px-md mt-auto flex flex-col gap-md">
+<button class="w-full py-sm px-md bg-secondary text-on-secondary font-label-sm text-label-sm rounded-lg hover:scale-[1.02] active:scale-95 transition-all neon-glow-cyan uppercase tracking-widest font-bold">
+                    Upgrade Gear
+                </button>
+<div class="flex flex-col gap-xs pt-md border-t border-white/5">
+<a class="flex items-center gap-sm text-on-surface-variant hover:text-on-surface px-md py-xs text-[11px] font-label-sm transition-colors" href="#">
+<span class="material-symbols-outlined text-[16px]" data-icon="description">description</span>
+                        Docs
+                    </a>
+<a class="flex items-center gap-sm text-on-surface-variant hover:text-on-surface px-md py-xs text-[11px] font-label-sm transition-colors" href="#">
+<span class="material-symbols-outlined text-[16px]" data-icon="help">help</span>
+                        Help
+                    </a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 flex-1 relative overflow-auto grid-bg bg-surface">
+<!-- Header Section -->
+<div class="sticky top-0 p-gutter z-10 flex justify-between items-end pointer-events-none">
+<div class="pointer-events-auto">
+<h2 class="font-display-lg text-headline-lg text-on-surface">Cybersecurity Specialist</h2>
+<p class="text-secondary-fixed-dim font-label-sm text-label-sm flex items-center gap-sm">
+<span class="material-symbols-outlined text-[18px]" data-icon="shield">shield</span>
+                        PATHWAY IN PROGRESS • 32% MASTERED
+                    </p>
+</div>
+<div class="flex gap-sm pointer-events-auto">
+<div class="bg-surface-container-low/80 backdrop-blur-md p-sm border border-outline-variant/30 rounded-xl flex items-center gap-md">
+<div class="text-right">
+<span class="block text-[10px] text-on-surface-variant uppercase font-label-sm">Current Node</span>
+<span class="block text-secondary font-headline-md text-label-sm">Networking Essentials</span>
+</div>
+<span class="material-symbols-outlined text-secondary animate-pulse" data-icon="sensors">sensors</span>
+</div>
+</div>
+</div>
+<!-- Skill Tree Flowchart -->
+<div class="min-h-full w-full p-gutter flex flex-col items-center justify-start gap-32 pt-12 pb-32">
+<!-- Level 1: Foundation -->
+<div class="relative flex flex-col items-center group">
+<!-- Node 1: Completed -->
+<div class="relative z-20 w-64 p-sm rounded-xl bg-surface-container-high/90 backdrop-blur-xl border-2 border-tertiary-container neon-glow-purple transition-all duration-300 hover:scale-105 cursor-pointer">
+<div class="absolute -top-3 -right-3 w-8 h-8 bg-tertiary-container rounded-full flex items-center justify-center text-on-tertiary shadow-[0_0_10px_#cea700]">
+<span class="material-symbols-outlined text-[18px]" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="flex items-center gap-sm mb-xs">
+<span class="material-symbols-outlined text-tertiary" data-icon="terminal">terminal</span>
+<h4 class="font-label-sm text-label-sm text-on-surface uppercase tracking-wide">Linux Basics</h4>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-tertiary" style="width: 100%"></div>
+</div>
+<div class="flex justify-between mt-sm">
+<span class="text-[10px] font-code-md text-tertiary">+250 XP</span>
+<span class="text-[10px] font-label-sm text-on-surface-variant">FINISHED</span>
+</div>
+</div>
+<!-- Vertical Connector -->
+<div class="h-32 w-1 bg-gradient-to-b from-tertiary to-secondary opacity-50 absolute top-full"></div>
+</div>
+<!-- Level 2: Core Skills -->
+<div class="flex gap-xl relative">
+<!-- Connector Lines Background Layer -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none overflow-visible" style="z-index: 0;">
+<path class="opacity-50" d="M 32 0 L 32 40" fill="none" stroke="#5de6ff" stroke-width="2"></path>
+<path d="M 400 0 L 400 40" fill="none" stroke="#4d4354" stroke-dasharray="4 4" stroke-width="2"></path>
+</svg>
+<!-- Node 2: In Progress -->
+<div class="relative z-20 w-64 p-sm rounded-xl bg-surface-container-high/90 backdrop-blur-xl border-2 border-secondary pulse-cyan transition-all duration-300 hover:scale-105 cursor-pointer">
+<div class="absolute -top-3 -right-3 w-8 h-8 bg-secondary rounded-full flex items-center justify-center text-on-secondary shadow-[0_0_10px_#5de6ff] animate-pulse">
+<span class="material-symbols-outlined text-[18px]" data-icon="sync" data-weight="fill">sync</span>
+</div>
+<div class="flex items-center gap-sm mb-xs">
+<span class="material-symbols-outlined text-secondary" data-icon="router">router</span>
+<h4 class="font-label-sm text-label-sm text-on-surface uppercase tracking-wide">Networking Essentials</h4>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-secondary" style="width: 45%"></div>
+</div>
+<div class="flex justify-between mt-sm">
+<span class="text-[10px] font-code-md text-secondary">+500 XP</span>
+<span class="text-[10px] font-label-sm text-secondary animate-pulse font-bold tracking-widest">ACTIVE</span>
+</div>
+</div>
+<!-- Node 3: Locked -->
+<div class="relative z-20 w-64 p-sm rounded-xl bg-surface-container/40 backdrop-blur-sm border border-outline-variant/30 grayscale opacity-60 cursor-not-allowed">
+<div class="absolute -top-3 -right-3 w-8 h-8 bg-surface-container-highest rounded-full flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]" data-icon="lock" style="font-variation-settings: 'FILL' 1;">lock</span>
+</div>
+<div class="flex items-center gap-sm mb-xs">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="code">code</span>
+<h4 class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide">Python for Scripting</h4>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-outline-variant" style="width: 0%"></div>
+</div>
+<div class="flex justify-between mt-sm">
+<span class="text-[10px] font-code-md text-on-surface-variant">+650 XP</span>
+<span class="text-[10px] font-label-sm text-on-surface-variant uppercase">Locked</span>
+</div>
+</div>
+</div>
+<!-- Level 3: Advanced (Future Nodes) -->
+<div class="flex gap-md opacity-30 pointer-events-none">
+<div class="w-48 h-12 rounded-lg border border-dashed border-outline-variant flex items-center justify-center">
+<span class="text-[10px] font-label-sm uppercase tracking-widest text-on-surface-variant">Penetration Testing</span>
+</div>
+<div class="w-48 h-12 rounded-lg border border-dashed border-outline-variant flex items-center justify-center">
+<span class="text-[10px] font-label-sm uppercase tracking-widest text-on-surface-variant">Cloud Security</span>
+</div>
+<div class="w-48 h-12 rounded-lg border border-dashed border-outline-variant flex items-center justify-center">
+<span class="text-[10px] font-label-sm uppercase tracking-widest text-on-surface-variant">Incident Response</span>
+</div>
+</div>
+</div>
+<!-- Floating Action Tooltip/Command -->
+<div class="fixed bottom-gutter right-gutter z-50">
+<div class="bg-surface-container-highest/90 backdrop-blur-xl border border-secondary/40 p-md rounded-2xl shadow-2xl flex flex-col gap-sm w-72">
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Active Quest</span>
+<span class="material-symbols-outlined text-secondary" data-icon="bolt" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</div>
+<p class="font-body-md text-on-surface font-bold">Trace the TCP Handshake</p>
+<p class="text-on-surface-variant text-[11px] leading-relaxed">Capture and analyze a three-way handshake using Wireshark on the target virtual network node.</p>
+<div class="flex gap-sm mt-sm">
+<button class="flex-1 py-xs bg-secondary text-on-secondary text-[11px] font-bold uppercase rounded-lg hover:brightness-110 transition-all">Launch Lab</button>
+<button class="p-xs border border-outline-variant rounded-lg hover:bg-white/5"><span class="material-symbols-outlined text-[16px]" data-icon="more_horiz">more_horiz</span></button>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Decorative HUD element -->
+<div class="fixed top-24 right-8 pointer-events-none opacity-20">
+<svg class="rotate-anim" height="200" viewbox="0 0 100 100" width="200">
+<circle cx="50" cy="50" fill="none" r="48" stroke="#5de6ff" stroke-dasharray="1 3" stroke-width="0.5"></circle>
+<circle cx="50" cy="50" fill="none" r="40" stroke="#ddb7ff" stroke-dasharray="10 5" stroke-width="1"></circle>
+</svg>
+</div>
+<script>
+        // Simple rotation for HUD element
+        const hud = document.querySelector('.rotate-anim');
+        if (hud) {
+            let angle = 0;
+            function animate() {
+                angle += 0.05;
+                hud.style.transform = `rotate(${angle}deg)`;
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
+        // Micro-interactions for skill nodes
+        const nodes = document.querySelectorAll('.cursor-pointer');
+        nodes.forEach(node => {
+            node.addEventListener('mousedown', () => {
+                node.style.transform = 'scale(0.95)';
+                node.style.opacity = '0.8';
+            });
+            node.addEventListener('mouseup', () => {
+                node.style.transform = 'scale(1.05)';
+                node.style.opacity = '1';
+            });
+            node.addEventListener('mouseleave', () => {
+                node.style.transform = 'scale(1)';
+                node.style.opacity = '1';
+            });
+        });
+    </script>
+</body></html>
