@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>QuestPath - Discover Your Tech Archetype</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=JetBrains+Mono:wght@100..800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=JetBrains+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .glass-panel {
+      background: rgba(11, 19, 38, 0.75);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(221, 183, 255, 0.15);
+    }
+    .neon-border-cyan:hover {
+      border-color: #5de6ff;
+      box-shadow: 0 0 15px rgba(93, 230, 255, 0.3);
+    }
+    .neon-border-purple:hover {
+      border-color: #ddb7ff;
+      box-shadow: 0 0 15px rgba(221, 183, 255, 0.3);
+    }
+    .active-card {
+      border-color: #5de6ff !important;
+      background: rgba(93, 230, 255, 0.05);
+      box-shadow: 0 0 20px rgba(93, 230, 255, 0.2);
+    }
+    @keyframes pulse-gold {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+    .animate-pulse-gold {
+      animation: pulse-gold 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+  </style>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+                  "on-error": "#690005",
+                  "surface-container-low": "#131b2e",
+                  "secondary-fixed-dim": "#2fd9f4",
+                  "on-secondary-fixed-variant": "#004e5a",
+                  "error-container": "#93000a",
+                  "on-tertiary-fixed-variant": "#574500",
+                  "on-secondary-container": "#00515d",
+                  "surface-dim": "#0b1326",
+                  "tertiary": "#efc200",
+                  "on-surface-variant": "#cfc2d6",
+                  "on-error-container": "#ffdad6",
+                  "error": "#ffb4ab",
+                  "primary-fixed-dim": "#ddb7ff",
+                  "surface-container-high": "#222a3d",
+                  "secondary-container": "#00cbe6",
+                  "on-tertiary": "#3c2f00",
+                  "surface-container": "#171f33",
+                  "secondary": "#5de6ff",
+                  "tertiary-fixed-dim": "#eec200",
+                  "background": "#0b1326",
+                  "surface-container-highest": "#2d3449",
+                  "tertiary-fixed": "#ffe083",
+                  "surface-bright": "#31394d",
+                  "outline-variant": "#4d4354",
+                  "surface-container-lowest": "#060e20",
+                  "on-primary-fixed-variant": "#6900b3",
+                  "on-primary-fixed": "#2c0051",
+                  "surface-tint": "#ddb7ff",
+                  "surface": "#0b1326",
+                  "primary-container": "#b76dff",
+                  "outline": "#988d9f",
+                  "on-background": "#dae2fd",
+                  "surface-variant": "#2d3449",
+                  "tertiary-container": "#cea700",
+                  "inverse-on-surface": "#283044",
+                  "on-tertiary-container": "#4e3e00",
+                  "secondary-fixed": "#a2eeff",
+                  "on-primary-container": "#400071",
+                  "primary-fixed": "#f0dbff",
+                  "inverse-primary": "#842bd2",
+                  "on-surface": "#dae2fd",
+                  "on-secondary-fixed": "#001f25",
+                  "primary": "#ddb7ff",
+                  "on-secondary": "#00363e",
+                  "on-tertiary-fixed": "#231b00",
+                  "on-primary": "#490080",
+                  "inverse-surface": "#dae2fd"
+          },
+          "borderRadius": {
+                  "DEFAULT": "0.25rem",
+                  "lg": "0.5rem",
+                  "xl": "0.75rem",
+                  "full": "9999px"
+          },
+          "spacing": {
+                  "lg": "40px",
+                  "md": "24px",
+                  "base": "8px",
+                  "gutter": "24px",
+                  "margin-mobile": "16px",
+                  "xl": "64px",
+                  "xs": "4px",
+                  "margin-desktop": "32px",
+                  "sm": "12px"
+          },
+          "fontFamily": {
+                  "code-md": ["JetBrains Mono"],
+                  "body-lg": ["Geist"],
+                  "label-sm": ["JetBrains Mono"],
+                  "headline-md": ["Geist"],
+                  "display-lg": ["Geist"],
+                  "headline-lg": ["Geist"],
+                  "body-md": ["Geist"]
+          },
+          "fontSize": {
+                  "code-md": ["14px", {"lineHeight": "1.6", "fontWeight": "450"}],
+                  "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                  "label-sm": ["12px", {"lineHeight": "1", "fontWeight": "600"}],
+                  "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                  "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                  "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                  "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+          }
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-background text-on-surface font-body-md selection:bg-primary/30">
+<!-- Main Viewport Context (Blurred Background) -->
+<div class="fixed inset-0 z-0 overflow-hidden">
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(132,43,210,0.15),transparent_70%)]"></div>
+<div class="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 blur-[128px] rounded-full"></div>
+<div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary/10 blur-[128px] rounded-full"></div>
+<!-- Background Content Mockup -->
+<main class="max-w-7xl mx-auto px-gutter pt-32 blur-md grayscale">
+<div class="grid grid-cols-12 gap-gutter">
+<div class="col-span-8 space-y-md">
+<div class="h-64 glass-panel rounded-xl"></div>
+<div class="grid grid-cols-3 gap-md">
+<div class="h-32 glass-panel rounded-xl"></div>
+<div class="h-32 glass-panel rounded-xl"></div>
+<div class="h-32 glass-panel rounded-xl"></div>
+</div>
+</div>
+<div class="col-span-4 h-[500px] glass-panel rounded-xl"></div>
+</div>
+</main>
+</div>
+<!-- Onboarding Modal Overlay -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-gutter backdrop-blur-sm bg-background/40" id="modal-container">
+<div class="relative w-full max-w-2xl glass-panel rounded-xl shadow-2xl overflow-hidden border border-white/5">
+<!-- Modal Header: Progress -->
+<div class="px-lg pt-lg pb-md">
+<div class="flex justify-between items-end mb-sm">
+<span class="font-code-md text-label-sm text-secondary tracking-widest uppercase">Initializing Selection...</span>
+<span class="font-code-md text-label-sm text-on-surface-variant">Step <span id="current-step">1</span> of 4</span>
+</div>
+<div class="w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-secondary shadow-[0_0_10px_#5de6ff] transition-all duration-700 ease-out" id="progress-bar" style="width: 25%;"></div>
+</div>
+</div>
+<!-- Quiz Content Area -->
+<div class="px-lg pb-lg" id="quiz-canvas">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-lg">What excites you the most?</h2>
+<!-- Option Grid (2x2) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<!-- Option A -->
+<button class="group flex flex-col items-start p-md text-left glass-panel rounded-xl border border-outline-variant/30 transition-all duration-300 neon-border-purple hover:scale-[1.02] active:scale-95" onclick="selectOption(this, 'cyber')">
+<div class="w-12 h-12 flex items-center justify-center rounded-lg bg-surface-container-high mb-md group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">terminal</span>
+</div>
+<h3 class="font-headline-md text-body-lg mb-xs">Cybersecurity Shinobi</h3>
+<p class="font-body-md text-on-surface-variant text-sm">Hunting for system security bugs and vulnerabilities.</p>
+</button>
+<!-- Option B -->
+<button class="group flex flex-col items-start p-md text-left glass-panel rounded-xl border border-outline-variant/30 transition-all duration-300 neon-border-cyan hover:scale-[1.02] active:scale-95" onclick="selectOption(this, 'web')">
+<div class="w-12 h-12 flex items-center justify-center rounded-lg bg-surface-container-high mb-md group-hover:text-secondary transition-colors">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">auto_fix_high</span>
+</div>
+<h3 class="font-headline-md text-body-lg mb-xs">Software Alchemist</h3>
+<p class="font-body-md text-on-surface-variant text-sm">Building web apps and immersive mobile interfaces.</p>
+</button>
+<!-- Option C -->
+<button class="group flex flex-col items-start p-md text-left glass-panel rounded-xl border border-outline-variant/30 transition-all duration-300 neon-border-cyan hover:scale-[1.02] active:scale-95" onclick="selectOption(this, 'ai')">
+<div class="w-12 h-12 flex items-center justify-center rounded-lg bg-surface-container-high mb-md group-hover:text-secondary transition-colors">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">psychology</span>
+</div>
+<h3 class="font-headline-md text-body-lg mb-xs">Data Wizard</h3>
+<p class="font-body-md text-on-surface-variant text-sm">Training AI models and analyzing complex data patterns.</p>
+</button>
+<!-- Option D -->
+<button class="group flex flex-col items-start p-md text-left glass-panel rounded-xl border border-outline-variant/30 transition-all duration-300 neon-border-purple hover:scale-[1.02] active:scale-95" onclick="selectOption(this, 'lead')">
+<div class="w-12 h-12 flex items-center justify-center rounded-lg bg-surface-container-high mb-md group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">groups</span>
+</div>
+<h3 class="font-headline-md text-body-lg mb-xs">Guild Commander</h3>
+<p class="font-body-md text-on-surface-variant text-sm">Leading tech projects and multi-disciplinary teams.</p>
+</button>
+</div>
+</div>
+<!-- Success / Result Preview (Hidden Initially) -->
+<div class="hidden px-lg pb-lg text-center animate-in fade-in zoom-in duration-500" id="result-view">
+<div class="mb-lg relative inline-block">
+<div class="absolute inset-0 bg-tertiary/20 blur-xl rounded-full"></div>
+<div class="w-24 h-24 glass-panel rounded-full flex items-center justify-center border-2 border-tertiary relative z-10 mx-auto">
+<span class="material-symbols-outlined text-5xl text-tertiary animate-pulse-gold" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+</div>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-xs">Archetype Identified!</h2>
+<p class="font-body-lg text-secondary mb-lg">The Path of the Cybersecurity Shinobi</p>
+<div class="glass-panel p-md rounded-xl border-dashed border-outline-variant/50 mb-xl text-left">
+<div class="flex gap-sm items-center mb-sm">
+<span class="material-symbols-outlined text-tertiary">check_circle</span>
+<span class="text-sm font-code-md">Bonus Unlocked: 150 XP Path Intro</span>
+</div>
+<p class="text-sm text-on-surface-variant">We've generated a 3-month roadmap focused on Penetration Testing, Kali Linux mastery, and Cryptography nodes.</p>
+</div>
+<button class="w-full py-md px-xl bg-primary text-on-primary font-headline-md text-body-lg rounded-lg shadow-[0_0_20px_rgba(183,109,255,0.4)] hover:shadow-[0_0_30px_rgba(183,109,255,0.6)] transition-all transform hover:scale-[1.01] active:scale-[0.98]" onclick="window.location.reload()">
+          Claim Your Roadmap
+        </button>
+</div>
+<!-- Navigation Footer -->
+<div class="px-lg py-md glass-panel bg-surface-container-lowest/50 flex justify-between items-center border-t border-white/5" id="modal-footer">
+<button class="flex items-center gap-xs px-md py-sm font-label-sm text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-sm">arrow_back</span>
+          Back
+        </button>
+<button class="flex items-center gap-sm px-md py-sm bg-secondary/10 border border-secondary/30 text-secondary rounded-lg font-label-sm hover:bg-secondary/20 hover:shadow-[0_0_15px_rgba(93,230,255,0.2)] transition-all disabled:opacity-30 disabled:cursor-not-allowed" id="next-btn" onclick="nextStep()">
+          Next Step
+          <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<script>
+    let currentStepNum = 1;
+    let selectedArchetype = null;
+
+    function selectOption(element, type) {
+      // Clear previous selections
+      document.querySelectorAll('#quiz-canvas button').forEach(btn => {
+        btn.classList.remove('active-card');
+      });
+      
+      // Add active state
+      element.classList.add('active-card');
+      selectedArchetype = type;
+      
+      // Enable next button
+      document.getElementById('next-btn').removeAttribute('disabled');
+    }
+
+    function nextStep() {
+      if (currentStepNum < 4) {
+        currentStepNum++;
+        updateUI();
+      } else {
+        showResults();
+      }
+    }
+
+    function updateUI() {
+      const stepText = document.getElementById('current-step');
+      const progressBar = document.getElementById('progress-bar');
+      const question = document.querySelector('#quiz-canvas h2');
+      
+      stepText.textContent = currentStepNum;
+      progressBar.style.width = (currentStepNum * 25) + '%';
+      
+      // Mock question change
+      const questions = [
+        "What excites you the most?",
+        "Choose your preferred weapon...",
+        "A critical bug appears in production, you:",
+        "Where does your power flow from?"
+      ];
+      
+      question.style.opacity = 0;
+      setTimeout(() => {
+        question.textContent = questions[currentStepNum - 1];
+        question.style.opacity = 1;
+        
+        // Reset selections for the next step demo
+        document.querySelectorAll('#quiz-canvas button').forEach(btn => {
+          btn.classList.remove('active-card');
+        });
+        document.getElementById('next-btn').setAttribute('disabled', 'true');
+      }, 200);
+    }
+
+    function showResults() {
+      document.getElementById('quiz-canvas').classList.add('hidden');
+      document.getElementById('modal-footer').classList.add('hidden');
+      document.getElementById('result-view').classList.remove('hidden');
+      
+      const progressBar = document.getElementById('progress-bar');
+      progressBar.classList.remove('bg-secondary');
+      progressBar.classList.add('bg-tertiary');
+      progressBar.style.width = '100%';
+      
+      document.querySelector('.font-code-md.text-secondary').textContent = "Initialization Complete";
+      document.querySelector('.font-code-md.text-secondary').classList.replace('text-secondary', 'text-tertiary');
+    }
+
+    // Initialize state
+    document.getElementById('next-btn').setAttribute('disabled', 'true');
+  </script>
+</body></html>
