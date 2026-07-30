@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>QuestPath - Member Access</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist.min.css" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/jetbrains-mono@1.0.6/css/jetbrains-mono.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=JetBrains+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-on-surface": "#283044",
+                    "on-background": "#dae2fd",
+                    "on-tertiary-container": "#4e3e00",
+                    "primary": "#ddb7ff",
+                    "primary-fixed-dim": "#ddb7ff",
+                    "inverse-primary": "#842bd2",
+                    "on-error": "#690005",
+                    "on-secondary-container": "#00515d",
+                    "tertiary-fixed": "#ffe083",
+                    "surface-container-lowest": "#060e20",
+                    "on-surface": "#dae2fd",
+                    "surface-bright": "#31394d",
+                    "on-error-container": "#ffdad6",
+                    "on-secondary-fixed": "#001f25",
+                    "on-primary-container": "#400071",
+                    "on-primary-fixed": "#2c0051",
+                    "error": "#ffb4ab",
+                    "surface-container-high": "#222a3d",
+                    "secondary-container": "#00cbe6",
+                    "surface-container-low": "#131b2e",
+                    "outline-variant": "#4d4354",
+                    "on-tertiary-fixed-variant": "#574500",
+                    "surface-container-highest": "#2d3449",
+                    "surface-container": "#171f33",
+                    "on-tertiary-fixed": "#231b00",
+                    "on-secondary": "#00363e",
+                    "surface": "#0b1326",
+                    "primary-container": "#b76dff",
+                    "tertiary-container": "#cea700",
+                    "error-container": "#93000a",
+                    "inverse-surface": "#dae2fd",
+                    "on-tertiary": "#3c2f00",
+                    "tertiary-fixed-dim": "#eec200",
+                    "primary-fixed": "#f0dbff",
+                    "on-primary": "#490080",
+                    "background": "#0b1326",
+                    "on-primary-fixed-variant": "#6900b3",
+                    "secondary-fixed-dim": "#2fd9f4",
+                    "outline": "#988d9f",
+                    "secondary": "#5de6ff",
+                    "surface-dim": "#0b1326",
+                    "on-secondary-fixed-variant": "#004e5a",
+                    "secondary-fixed": "#a2eeff",
+                    "on-surface-variant": "#cfc2d6",
+                    "surface-tint": "#ddb7ff",
+                    "tertiary": "#efc200",
+                    "surface-variant": "#2d3449"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xs": "4px",
+                    "lg": "40px",
+                    "xl": "64px",
+                    "margin-mobile": "16px",
+                    "gutter": "24px",
+                    "base": "8px",
+                    "md": "24px",
+                    "sm": "12px",
+                    "margin-desktop": "32px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Geist"],
+                    "display-lg": ["Geist"],
+                    "body-md": ["Geist"],
+                    "body-lg": ["Geist"],
+                    "label-sm": ["JetBrains Mono"],
+                    "code-md": ["JetBrains Mono"],
+                    "headline-lg": ["Geist"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "1", "fontWeight": "600"}],
+                    "code-md": ["14px", {"lineHeight": "1.6", "fontWeight": "450"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #020617;
+            overflow: hidden;
+        }
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .neon-border-cyan {
+            box-shadow: 0 0 10px rgba(93, 230, 255, 0.2);
+            border: 1px solid rgba(93, 230, 255, 0.3);
+        }
+        .neon-border-purple {
+            box-shadow: 0 0 10px rgba(221, 183, 255, 0.2);
+            border: 1px solid rgba(221, 183, 255, 0.3);
+        }
+        .glow-button {
+            background: linear-gradient(90deg, #5de6ff, #ddb7ff);
+            transition: all 0.3s ease;
+        }
+        .glow-button:hover {
+            box-shadow: 0 0 25px rgba(221, 183, 255, 0.6);
+            transform: translateY(-1px);
+        }
+        .tab-active {
+            color: #ddb7ff;
+            border-bottom: 2px solid #ddb7ff;
+            text-shadow: 0 0 8px rgba(221, 183, 255, 0.5);
+        }
+        .floating-label-group {
+            position: relative;
+        }
+        .floating-label-group input:focus ~ label,
+        .floating-label-group input:not(:placeholder-shown) ~ label {
+            top: -10px;
+            left: 10px;
+            font-size: 10px;
+            color: #5de6ff;
+            background: #171f33;
+            padding: 0 4px;
+        }
+        .floating-label-group label {
+            position: absolute;
+            top: 14px;
+            left: 16px;
+            pointer-events: none;
+            transition: all 0.2s ease;
+        }
+        .shimmer {
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite linear;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+    </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+</head>
+<body class="font-body-md text-on-background">
+<!-- Blurred Background Context -->
+<div class="fixed inset-0 z-0">
+<div class="absolute inset-0 opacity-40 blur-2xl scale-110 pointer-events-none" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC-EfsZP-xiX_f-IqjIgpcWH_aB6hpT93Y-3BIHZfloZisgExrYkAzQeGeGCoE9pgLI9bm_w2iC2ZtfCdyFDJ2qdExtCnzhpzT6nJ_nAxQBeOLNUwMADczTpaTmbGvo2YKNFV8kp-y6SaK3W6bp7JkGPHBMZz1rGYFfTv4D2lZgtaAVMDDeGippG6THovHHNiUAfzt6dS65m2WaNMigP0oK5UzPSsk-EU3ozFsKg8I5ddsjz5AbWgcu3Q'); background-size: cover; background-position: center;">
+</div>
+<div class="absolute inset-0 bg-surface/80"></div>
+</div>
+<!-- Modal Container -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-margin-mobile">
+<div class="glass-panel w-full max-w-xl rounded-xl overflow-hidden shadow-2xl relative">
+<!-- Warning Banner -->
+<div class="bg-error-container text-on-error-container py-3 px-md flex items-center gap-sm relative overflow-hidden">
+<div class="shimmer absolute inset-0"></div>
+<span class="material-symbols-outlined text-headline-md relative z-10">lock</span>
+<p class="font-label-sm text-label-sm relative z-10 tracking-wide uppercase">
+                    Member Access Required — Please Sign In to Access Roadmaps & Skill Trees
+                </p>
+</div>
+<!-- Modal Content -->
+<div class="p-md md:p-lg space-y-md">
+<!-- Logo & Header -->
+<div class="flex flex-col items-center gap-base">
+<img alt="QuestPath Logo" class="w-16 h-16 drop-shadow-[0_0_12px_rgba(221,183,255,0.4)]" src="https://lh3.googleusercontent.com/aida/AP1WRLv9lJoMeELxCAMJNsrIoego2_z5G5XNj1hx7ZYx-m9-L5sMY9hqY6LvJILEy9eoDbW69regMQlhFi90h3H9H28VSRSLFaUEYHHB5mV1J_9jk4ZbogDvhE1o46INLBp9iVuogYMDsdpjeAQgqBCX2g-XyGkmDMk58KD3i13IzIMOctZme6AeehQD8WKWyi-G-1Ydyjs2B2hgD_X8r1TAcpooMLgt4ATHc5LjGRz-aAYOd-0UAvbrQJNkWI0R"/>
+<h2 class="font-headline-md text-headline-md text-primary tracking-tight">QuestPath Terminal</h2>
+</div>
+<!-- Tabs -->
+<div class="flex border-b border-white/5">
+<button class="flex-1 py-base font-label-sm text-label-sm tab-active transition-all" id="tab-login" onclick="switchTab('login')">LOGIN</button>
+<button class="flex-1 py-base font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-all" id="tab-register" onclick="switchTab('register')">NEW STUDENT REGISTER</button>
+</div>
+<!-- Form -->
+<form class="space-y-sm" id="auth-form">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-sm">
+<!-- Email -->
+<div class="floating-label-group md:col-span-2">
+<input class="w-full bg-surface-container-low border border-white/10 rounded-lg px-md py-sm focus:outline-none focus:ring-1 focus:ring-secondary focus:border-secondary transition-all font-body-md" placeholder=" " required="" type="email"/>
+<label class="font-label-sm text-on-surface-variant">Email Address</label>
+</div>
+<!-- Password -->
+<div class="floating-label-group md:col-span-2 relative">
+<input class="w-full bg-surface-container-low border border-white/10 rounded-lg px-md py-sm focus:outline-none focus:ring-1 focus:ring-secondary focus:border-secondary transition-all font-body-md" id="password-input" placeholder=" " required="" type="password"/>
+<label class="font-label-sm text-on-surface-variant">Password</label>
+<button class="absolute right-md top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-secondary" onclick="togglePassword()" type="button">
+<span class="material-symbols-outlined" id="password-toggle-icon">visibility</span>
+</button>
+</div>
+<!-- Optional Fields -->
+<div class="floating-label-group">
+<input class="w-full bg-surface-container-low border border-white/10 rounded-lg px-md py-sm focus:outline-none focus:ring-1 focus:ring-secondary focus:border-secondary transition-all font-body-md" placeholder=" " type="text"/>
+<label class="font-label-sm text-on-surface-variant">Entrance Exam Roll # (Optional)</label>
+</div>
+<div class="floating-label-group">
+<input class="w-full bg-surface-container-low border border-white/10 rounded-lg px-md py-sm focus:outline-none focus:ring-1 focus:ring-secondary focus:border-secondary transition-all font-body-md" placeholder=" " type="text"/>
+<label class="font-label-sm text-on-surface-variant">City/Region (Optional)</label>
+</div>
+</div>
+<!-- Forgot Password Link -->
+<div class="flex justify-end">
+<a class="font-label-sm text-label-sm text-secondary hover:underline" href="#">Forgot Password</a>
+</div>
+<!-- CTA -->
+<button class="glow-button w-full py-md rounded-lg font-headline-md text-on-primary-container uppercase tracking-widest mt-base" type="submit">
+                        Unlock My Dashboard / Login
+                    </button>
+</form>
+<!-- Footer Notice -->
+<div class="bg-surface-container-highest/40 border border-white/5 rounded-lg p-sm flex gap-sm items-start">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">info</span>
+<p class="font-label-sm text-label-sm text-on-surface-variant leading-tight">
+                        First time here? Complete our 1-minute Interest Assessment after signing up to get a personalized roadmap recommendation.
+                    </p>
+</div>
+</div>
+<!-- Modal Bottom Decoration -->
+<div class="h-1 w-full bg-gradient-to-r from-secondary via-primary to-secondary opacity-50"></div>
+</div>
+</div>
+<!-- Micro-interactions Script -->
+<script>
+        function togglePassword() {
+            const input = document.getElementById('password-input');
+            const icon = document.getElementById('password-toggle-icon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.textContent = 'visibility_off';
+            } else {
+                input.type = 'password';
+                icon.textContent = 'visibility';
+            }
+        }
+
+        function switchTab(mode) {
+            const loginTab = document.getElementById('tab-login');
+            const registerTab = document.getElementById('tab-register');
+            
+            if (mode === 'login') {
+                loginTab.classList.add('tab-active');
+                loginTab.classList.remove('text-on-surface-variant');
+                registerTab.classList.remove('tab-active');
+                registerTab.classList.add('text-on-surface-variant');
+            } else {
+                registerTab.classList.add('tab-active');
+                registerTab.classList.remove('text-on-surface-variant');
+                loginTab.classList.remove('tab-active');
+                loginTab.classList.add('text-on-surface-variant');
+            }
+        }
+
+        // Add a subtle mouse parallax to the modal
+        document.addEventListener('mousemove', (e) => {
+            const modal = document.querySelector('.glass-panel');
+            const x = (window.innerWidth / 2 - e.pageX) / 50;
+            const y = (window.innerHeight / 2 - e.pageY) / 50;
+            modal.style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`;
+        });
+
+        // Form submission effect
+        document.getElementById('auth-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            btn.textContent = 'Authenticating...';
+            btn.classList.add('animate-pulse');
+            setTimeout(() => {
+                btn.textContent = 'Access Granted';
+                btn.classList.remove('animate-pulse');
+                btn.classList.replace('glow-button', 'bg-tertiary text-on-tertiary-container');
+            }, 1500);
+        });
+        document.getElementById('auth-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  
+  const email = e.target.querySelector('input[type="email"]').value;
+  const password = document.getElementById('password-input').value;
+  const submitBtn = e.target.querySelector('button[type="submit"]');
+
+  submitBtn.textContent = 'Authenticating...';
+
+  // Check if we are in Login or Register mode
+  const isRegisterMode = document.getElementById('tab-register').classList.contains('tab-active');
+
+  if (isRegisterMode) {
+    // 1. REGISTER NEW USER
+    const { data, error } = await supabase.auth.signUp({ email, password });
+    
+    if (error) {
+      alert("Registration Error: " + error.message);
+      submitBtn.textContent = 'Unlock My Dashboard / Login';
+      return;
+    }
+
+    // 2. Insert baseline student profile record
+    if (data.user) {
+      await supabase.from('student_profiles').insert([
+        {
+          id: data.user.id,
+          full_name: email.split('@')[0],
+          email: email,
+          level: 1,
+          title: 'Novice Adventurer',
+          city: 'Nagpur'
+        }
+      ]);
+    }
+
+    // Direct new user to interest assessment quiz
+    window.location.href = "interest-quiz.html";
+
+  } else {
+    // 1. SIGN IN EXISTING USER
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+    if (error) {
+      alert("Login Error: " + error.message);
+      submitBtn.textContent = 'Unlock My Dashboard / Login';
+      return;
+    }
+
+    // Direct logged-in user straight to main roadmap
+    window.location.href = "roadmap-dashboard.html";
+  }
+});
+    </script>
+</body>
+</html>
