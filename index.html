@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-
-<html class="dark" lang="en"><head>
+<html class="dark" lang="en">
+<head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>QuestPath | Find Your Dream College</title>
@@ -8,7 +8,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=JetBrains+Mono:wght@100..800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=JetBrains+Mono:wght@100..900&display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -165,6 +164,7 @@
 </div>
 </div>
 <div class="flex items-center gap-sm">
+<!-- CHANGE: Pointing explicitly to login.html -->
 <a href="login.html" class="group flex items-center gap-2 px-md py-sm bg-primary text-on-primary font-label-sm text-label-sm rounded-xl transition-all duration-300 hover:scale-[1.02]">
   <span class="material-symbols-outlined">account_circle</span>
   <span>Sign In / Register</span>
@@ -259,7 +259,7 @@
 <span class="material-symbols-outlined text-primary">lock</span>
 </div>
 <span class="font-label-sm text-label-sm text-primary font-bold">Sign in to Access Full Roadmap</span>
-<button class="mt-md px-md py-2 bg-primary text-on-primary rounded-lg font-label-sm text-label-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">Login to Unlock</button>
+<a href="login.html" class="mt-md px-md py-2 bg-primary text-on-primary rounded-lg font-label-sm text-label-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">Login to Unlock</a>
 </div>
 <div class="space-y-md relative h-full">
 <div class="flex items-center justify-between">
@@ -289,7 +289,7 @@
 <span class="material-symbols-outlined text-tertiary">military_tech</span>
 </div>
 <span class="font-label-sm text-label-sm text-tertiary font-bold">Login to Compete</span>
-<button class="mt-md px-md py-2 bg-tertiary text-on-tertiary rounded-lg font-label-sm text-label-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">Join Rankings</button>
+<a href="loginpage_switch.html" class="mt-md px-md py-2 bg-tertiary text-on-tertiary rounded-lg font-label-sm text-label-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">Join Rankings</a>
 </div>
 <div class="space-y-md">
 <div class="flex items-center justify-between">
@@ -334,7 +334,7 @@
 <span class="material-symbols-outlined text-secondary">person_search</span>
 </div>
 <span class="font-label-sm text-label-sm text-secondary font-bold">Build Your Legend</span>
-<button class="mt-md px-md py-2 bg-secondary text-on-secondary rounded-lg font-label-sm text-label-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">Create Avatar</button>
+<a href="loginpage_switch.html" class="mt-md px-md py-2 bg-secondary text-on-secondary rounded-lg font-label-sm text-label-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">Create Avatar</a>
 </div>
 <div class="space-y-md">
 <div class="flex items-center gap-md">
@@ -367,36 +367,38 @@
 </div>
 </section>
 </main>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- Single Unified Script Block for Supabase Route Guard -->
 <script src="supabase-config.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const mainPortalBtn = document.querySelectorAll('.mode-toggle-bg button')[1];
 
-    mainPortalBtn.addEventListener('click', async () => {
-      // Query current session
-      const { data: { session } } = await supabase.auth.getSession();
+    if (mainPortalBtn) {
+      mainPortalBtn.addEventListener('click', async () => {
+        // Query current session live from Supabase
+        const { data: { session } } = await supabase.auth.getSession();
 
-      if (!session) {
-        // User not logged in -> Redirect to login terminal
-        alert('Roadmap Portal is locked. Please Sign In to access your custom paths.');
-        window.location.href = "login.html";
-      } else {
-        // User logged in -> Go to roadmap dashboard
-        window.location.href = "roadmap-dashboard.html";
-      }
-    });
+        if (!session) {
+          // User not logged in -> Alert & Redirect to login terminal
+          alert('Roadmap Portal is locked. Please Sign In to access your custom paths.');
+          window.location.href = "login.html";
+        } else {
+          // User logged in -> Go to roadmap dashboard
+          window.location.href = "first.html";
+        }
+      });
+    }
   });
 </script>
 
-</script>
 <footer class="px-margin-mobile md:px-xl py-lg border-t border-outline-variant/20 bg-surface-container-lowest">
 <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-md">
 <div class="flex items-center gap-xs grayscale opacity-50">
 <div class="w-8 h-8 bg-surface-container rounded flex items-center justify-center">
 <span class="material-symbols-outlined text-on-surface-variant text-[16px]">terminal</span>
 </div>
-<span class="font-label-sm text-label-sm font-bold tracking-tighter">QuestPath © 2024</span>
+<span class="font-label-sm text-label-sm font-bold tracking-tighter">QuestPath © 2026</span>
 </div>
 <div class="flex gap-lg font-label-sm text-label-sm text-on-surface-variant">
 <a class="hover:text-secondary transition-colors" href="#">Documentation</a>
@@ -413,17 +415,5 @@
 </div>
 </div>
 </footer>
-<!-- Simple Interactivity for the mode switch -->
-<script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const buttons = document.querySelectorAll('.mode-toggle-bg button');
-            buttons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    if (btn.innerText.includes('Main Portal')) {
-                        alert('Roadmap Portal is locked. Please Sign In to access your custom paths.');
-                    }
-                });
-            });
-        });
-    </script>
-</body></html>
+</body>
+</html>
