@@ -1,419 +1,160 @@
 <!DOCTYPE html>
 <html class="dark" lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>QuestPath | Find Your Dream College</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=JetBrains+Mono:wght@100..800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "on-error": "#690005",
-                        "secondary-fixed-dim": "#2fd9f4",
-                        "outline-variant": "#4d4354",
-                        "surface-container": "#171f33",
-                        "on-primary-fixed-variant": "#6900b3",
-                        "surface-container-lowest": "#060e20",
-                        "primary": "#ddb7ff",
-                        "error-container": "#93000a",
-                        "surface-tint": "#ddb7ff",
-                        "primary-fixed": "#f0dbff",
-                        "on-secondary": "#00363e",
-                        "background": "#0b1326",
-                        "surface-dim": "#0b1326",
-                        "on-secondary-fixed": "#001f25",
-                        "on-tertiary-fixed": "#231b00",
-                        "tertiary-fixed": "#ffe083",
-                        "on-secondary-container": "#00515d",
-                        "surface-container-high": "#222a3d",
-                        "on-tertiary-fixed-variant": "#574500",
-                        "on-surface-variant": "#cfc2d6",
-                        "tertiary": "#efc200",
-                        "surface-bright": "#31394d",
-                        "primary-fixed-dim": "#ddb7ff",
-                        "on-secondary-fixed-variant": "#004e5a",
-                        "on-tertiary-container": "#4e3e00",
-                        "inverse-on-surface": "#283044",
-                        "on-primary-fixed": "#2c0051",
-                        "error": "#ffb4ab",
-                        "surface": "#0b1326",
-                        "secondary": "#5de6ff",
-                        "on-primary-container": "#400071",
-                        "surface-variant": "#2d3449",
-                        "outline": "#988d9f",
-                        "surface-container-highest": "#2d3449",
-                        "primary-container": "#b76dff",
-                        "on-error-container": "#ffdad6",
-                        "inverse-surface": "#dae2fd",
-                        "tertiary-fixed-dim": "#eec200",
-                        "on-background": "#dae2fd",
-                        "surface-container-low": "#131b2e",
-                        "on-surface": "#dae2fd",
-                        "secondary-fixed": "#a2eeff",
-                        "secondary-container": "#00cbe6",
-                        "tertiary-container": "#cea700",
-                        "on-primary": "#490080",
-                        "inverse-primary": "#842bd2",
-                        "on-tertiary": "#3c2f00"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
-                    "spacing": {
-                        "xs": "4px",
-                        "lg": "40px",
-                        "xl": "64px",
-                        "gutter": "24px",
-                        "md": "24px",
-                        "margin-desktop": "32px",
-                        "base": "8px",
-                        "margin-mobile": "16px",
-                        "sm": "12px"
-                    },
-                    "fontFamily": {
-                        "label-sm": ["JetBrains Mono"],
-                        "body-lg": ["Geist"],
-                        "code-md": ["JetBrains Mono"],
-                        "display-lg": ["Geist"],
-                        "body-md": ["Geist"],
-                        "headline-md": ["Geist"],
-                        "headline-lg": ["Geist"]
-                    },
-                    "fontSize": {
-                        "label-sm": ["12px", {"lineHeight": "1", "fontWeight": "600"}],
-                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
-                        "code-md": ["14px", {"lineHeight": "1.6", "fontWeight": "450"}],
-                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
-                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
-                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
-                        "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}]
-                    }
-                },
-            },
-        }
-    </script>
-<style>
-        body {
-            background-color: #0b1326;
-            color: #dae2fd;
-            font-family: 'Geist', sans-serif;
-            overflow-x: hidden;
-        }
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        .glass-panel {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .neon-glow-cyan {
-            box-shadow: 0 0 15px rgba(6, 182, 212, 0.3);
-        }
-        .neon-glow-purple {
-            box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
-        }
-        .text-gradient {
-            background: linear-gradient(to right, #5de6ff, #ddb7ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .mode-toggle-bg {
-            background: rgba(11, 19, 38, 0.8);
-            border: 1px solid rgba(93, 230, 255, 0.2);
-        }
-        .node-line {
-            background: linear-gradient(90deg, transparent, #a855f7, transparent);
-            height: 2px;
-            width: 100%;
-            position: absolute;
-            top: 50%;
-            z-index: 0;
-        }
-    </style>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>QuestPath | Find Your Dream College</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=JetBrains+Mono:wght@100..800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <style>
+    body { background-color: #0b1326; color: #dae2fd; font-family: 'Geist', sans-serif; }
+    .glass-panel { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+    .neon-glow-cyan { box-shadow: 0 0 15px rgba(93, 230, 255, 0.3); }
+    .neon-glow-purple { box-shadow: 0 0 15px rgba(221, 183, 255, 0.3); }
+  </style>
 </head>
-<body class="selection:bg-secondary/30">
-<!-- Sticky Header -->
-<header class="sticky top-0 z-[100] w-full flex justify-between items-center px-gutter py-xs bg-surface-container/70 backdrop-blur-md border-b border-outline-variant/30 shadow-[0_0_15px_rgba(221,183,255,0.1)]">
-<div class="flex items-center gap-xs">
-<div class="w-10 h-10 bg-gradient-to-br from-secondary to-primary rounded-lg flex items-center justify-center neon-glow-cyan">
-<span class="material-symbols-outlined text-on-primary-container" style="font-variation-settings: 'FILL' 1;">terminal</span>
-</div>
-<span class="font-display-lg text-headline-md font-extrabold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-secondary to-primary">QuestPath</span>
-</div>
-<div class="hidden md:flex items-center">
-<div class="mode-toggle-bg p-1 rounded-full flex gap-1 relative overflow-hidden">
-<button class="flex items-center gap-2 px-4 py-2 rounded-full bg-secondary text-on-secondary font-label-sm text-label-sm transition-all duration-300">
-<span class="material-symbols-outlined text-[18px]">search</span>
-                    Exam Finder
-                </button>
-<button class="flex items-center gap-2 px-4 py-2 rounded-full text-on-surface-variant hover:text-secondary font-label-sm text-label-sm transition-all duration-300">
-<span class="material-symbols-outlined text-[18px]">rocket_launch</span>
-                    Main Portal
-                    <span class="material-symbols-outlined text-[14px]">lock</span>
-</button>
-</div>
-</div>
-<div class="flex items-center gap-sm">
-<!-- CHANGE: Pointing explicitly to login.html -->
-<a href="login.html" class="group flex items-center gap-2 px-md py-sm bg-primary text-on-primary font-label-sm text-label-sm rounded-xl transition-all duration-300 hover:scale-[1.02]">
-  <span class="material-symbols-outlined">account_circle</span>
-  <span>Sign In / Register</span>
-</a>
-</div>
-</header>
-<main class="relative">
-<!-- Hero Section: Exam & College Search -->
-<section class="relative min-h-[85vh] flex flex-col items-center justify-center px-margin-mobile md:px-xl py-xl overflow-hidden">
-<!-- Background Decoration -->
-<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-secondary/10 rounded-full blur-[120px] pointer-events-none"></div>
-<div class="max-w-5xl w-full text-center z-10 space-y-lg">
-<div class="space-y-sm">
-<h1 class="font-display-lg text-[40px] md:text-display-lg font-extrabold tracking-tighter leading-tight">
-                        Find Your Dream College by <br class="hidden md:block"/>
-<span class="text-gradient">Exam Scores</span>
-</h1>
-<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">
-                        Search offline database of colleges and cutoff percentiles instantly without internet. JEE, NEET, CUET, and State CETs supported.
-                    </p>
-</div>
-<!-- Multi-filter Search Panel -->
-<div class="glass-panel p-md md:p-lg rounded-2xl border-secondary/20 shadow-2xl">
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-sm">
-<!-- Exam Type -->
-<div class="space-y-xs text-left">
-<label class="font-label-sm text-label-sm text-secondary px-xs">Exam Type</label>
-<div class="relative">
-<select class="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg py-3 px-4 font-body-md text-body-md appearance-none focus:ring-2 focus:ring-secondary focus:border-transparent outline-none">
-<option>JEE Main</option>
-<option>NEET</option>
-<option>MHT-CET</option>
-<option>CUET</option>
-<option>Board Marks</option>
-</select>
-<span class="material-symbols-outlined absolute right-3 top-3 pointer-events-none text-on-surface-variant">expand_more</span>
-</div>
-</div>
-<!-- Score Input -->
-<div class="space-y-xs text-left">
-<label class="font-label-sm text-label-sm text-secondary px-xs">Score / Percentile</label>
-<input class="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg py-3 px-4 font-code-md text-code-md focus:ring-2 focus:ring-secondary focus:border-transparent outline-none placeholder:text-outline/50" placeholder="e.g. 98.4" type="text"/>
-</div>
-<!-- Category -->
-<div class="space-y-xs text-left">
-<label class="font-label-sm text-label-sm text-secondary px-xs">Category</label>
-<div class="relative">
-<select class="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg py-3 px-4 font-body-md text-body-md appearance-none focus:ring-2 focus:ring-secondary focus:border-transparent outline-none">
-<option>General</option>
-<option>OBC-NCL</option>
-<option>SC / ST</option>
-<option>EWS</option>
-</select>
-<span class="material-symbols-outlined absolute right-3 top-3 pointer-events-none text-on-surface-variant">expand_more</span>
-</div>
-</div>
-<!-- Region -->
-<div class="space-y-xs text-left">
-<label class="font-label-sm text-label-sm text-secondary px-xs">City / Region</label>
-<div class="relative">
-<input class="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg py-3 px-4 font-body-md text-body-md focus:ring-2 focus:ring-secondary focus:border-transparent outline-none placeholder:text-outline/50" placeholder="Nagpur, Pune..." type="text"/>
-<span class="material-symbols-outlined absolute right-3 top-3 text-on-surface-variant">location_on</span>
-</div>
-</div>
-</div>
-<div class="mt-md">
-<button class="w-full md:w-auto px-xl py-4 bg-secondary text-on-secondary font-headline-md text-headline-md rounded-xl hover:scale-[1.02] transition-transform duration-300 neon-glow-cyan flex items-center justify-center gap-sm">
-<span class="material-symbols-outlined">search</span>
-                            Search Colleges
-                        </button>
-</div>
-</div>
-</div>
-</section>
-<!-- Promotional Showcase Section -->
-<section class="px-margin-mobile md:px-xl py-xl bg-surface-container-lowest/50">
-<div class="max-w-7xl mx-auto space-y-lg">
-<div class="flex flex-col md:flex-row md:items-end justify-between gap-md">
-<div class="space-y-xs">
-<span class="font-label-sm text-label-sm text-primary uppercase tracking-[0.2em]">Restricted Content</span>
-<h2 class="font-headline-lg text-headline-lg font-bold">Explore What Awaits You Inside the Roadmap Portal</h2>
-</div>
-<button class="text-secondary font-label-sm text-label-sm flex items-center gap-2 hover:underline">
-                        View All Benefits <span class="material-symbols-outlined">arrow_forward</span>
-</button>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-md">
-<!-- Roadmap Showcase Card -->
-<div class="group relative glass-panel p-md rounded-2xl overflow-hidden border-primary/20 hover:border-primary transition-all duration-500">
-<div class="absolute inset-0 z-10 flex flex-col items-center justify-center bg-background/80 backdrop-blur-sm opacity-100 group-hover:bg-background/60 transition-all duration-300">
-<div class="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center mb-sm">
-<span class="material-symbols-outlined text-primary">lock</span>
-</div>
-<span class="font-label-sm text-label-sm text-primary font-bold">Sign in to Access Full Roadmap</span>
-<a href="login.html" class="mt-md px-md py-2 bg-primary text-on-primary rounded-lg font-label-sm text-label-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">Login to Unlock</a>
-</div>
-<div class="space-y-md relative h-full">
-<div class="flex items-center justify-between">
-<h3 class="font-headline-md text-headline-md font-bold text-on-surface">Skill Tree</h3>
-<div class="px-2 py-1 bg-surface-container-high rounded text-[10px] font-bold text-primary border border-primary/30 uppercase tracking-widest">Dev Path</div>
-</div>
-<!-- Visual Tree Representation -->
-<div class="relative h-48 flex items-center justify-around">
-<div class="node-line"></div>
-<div class="w-10 h-10 rounded-full border-2 border-primary bg-surface-container flex items-center justify-center relative z-10">
-<span class="material-symbols-outlined text-primary text-[18px]">html</span>
-</div>
-<div class="w-12 h-12 rounded-full border-2 border-secondary bg-surface-container flex items-center justify-center relative z-10 neon-glow-cyan scale-110">
-<span class="material-symbols-outlined text-secondary">code</span>
-</div>
-<div class="w-10 h-10 rounded-full border-2 border-primary/30 bg-surface-container flex items-center justify-center relative z-10">
-<span class="material-symbols-outlined text-on-surface-variant text-[18px]">storage</span>
-</div>
-</div>
-<p class="font-body-md text-body-md text-on-surface-variant">Master end-to-end development through RPG-style node-based pathways.</p>
-</div>
-</div>
-<!-- Leaderboard Showcase Card -->
-<div class="group relative glass-panel p-md rounded-2xl overflow-hidden border-tertiary/20 hover:border-tertiary transition-all duration-500">
-<div class="absolute inset-0 z-10 flex flex-col items-center justify-center bg-background/80 backdrop-blur-sm opacity-100 group-hover:bg-background/60 transition-all duration-300">
-<div class="w-12 h-12 rounded-full bg-tertiary/20 flex items-center justify-center mb-sm">
-<span class="material-symbols-outlined text-tertiary">military_tech</span>
-</div>
-<span class="font-label-sm text-label-sm text-tertiary font-bold">Login to Compete</span>
-<a href="loginpage_switch.html" class="mt-md px-md py-2 bg-tertiary text-on-tertiary rounded-lg font-label-sm text-label-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">Join Rankings</a>
-</div>
-<div class="space-y-md">
-<div class="flex items-center justify-between">
-<h3 class="font-headline-md text-headline-md font-bold text-on-surface">Regional Board</h3>
-<div class="flex items-center gap-1 text-tertiary">
-<span class="material-symbols-outlined text-[16px]">location_on</span>
-<span class="font-label-sm text-label-sm">Nagpur</span>
-</div>
-</div>
-<div class="space-y-sm">
-<div class="flex items-center justify-between p-sm bg-surface-container-high/50 rounded-lg border border-white/5">
-<div class="flex items-center gap-sm">
-<span class="font-code-md text-code-md text-tertiary">#1</span>
-<div class="w-8 h-8 rounded-full bg-slate-700"></div>
-<span class="font-body-md text-body-md">Cyber_Sam</span>
-</div>
-<span class="text-tertiary font-code-md text-label-sm">Lv.42</span>
-</div>
-<div class="flex items-center justify-between p-sm bg-surface-container-high/30 rounded-lg border border-white/5 opacity-50">
-<div class="flex items-center gap-sm">
-<span class="font-code-md text-code-md">#2</span>
-<div class="w-8 h-8 rounded-full bg-slate-700"></div>
-<span class="font-body-md text-body-md">Shadow_Dev</span>
-</div>
-<span class="font-code-md text-label-sm">Lv.38</span>
-</div>
-<div class="flex items-center justify-between p-sm bg-surface-container-high/30 rounded-lg border border-white/5 opacity-30">
-<div class="flex items-center gap-sm">
-<span class="font-code-md text-code-md">#3</span>
-<div class="w-8 h-8 rounded-full bg-slate-700"></div>
-<span class="font-body-md text-body-md">Null_Byte</span>
-</div>
-<span class="font-code-md text-label-sm">Lv.35</span>
-</div>
-</div>
-</div>
-</div>
-<!-- Hero Profile Showcase Card -->
-<div class="group relative glass-panel p-md rounded-2xl overflow-hidden border-secondary/20 hover:border-secondary transition-all duration-500">
-<div class="absolute inset-0 z-10 flex flex-col items-center justify-center bg-background/80 backdrop-blur-sm opacity-100 group-hover:bg-background/60 transition-all duration-300">
-<div class="w-12 h-12 rounded-full bg-secondary/20 flex items-center justify-center mb-sm">
-<span class="material-symbols-outlined text-secondary">person_search</span>
-</div>
-<span class="font-label-sm text-label-sm text-secondary font-bold">Build Your Legend</span>
-<a href="loginpage_switch.html" class="mt-md px-md py-2 bg-secondary text-on-secondary rounded-lg font-label-sm text-label-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">Create Avatar</a>
-</div>
-<div class="space-y-md">
-<div class="flex items-center gap-md">
-<div class="w-16 h-16 rounded-xl overflow-hidden border border-secondary/40 shadow-inner">
-<img alt="Java Alchemist Avatar" class="w-full h-full object-cover grayscale opacity-60" src="https://lh3.googleusercontent.com/aida/AP1WRLvtyf-QrG251XgMtRmKIL9v0z9UnjNQz0pyGYxO1zqeQBGEKKHN9T6JBWMUjUIVsmEZoy5KLIbXZCmQ9ckBssZ5zK_t1O8y_kPpQ0PBLvRugJWtCz1pqmbYnElDdRSgwfL0d8CKz4qjtsEEB1bGFa6LiNQw90CSYbPiFxMW7_xgG8H9qy0msP2qgtAPIac7xp2UIDmyo960Az3SElwH-OplzSAn1fz1f8LQboUnZQiDmPpp5Wh7ck4St0XX"/>
-</div>
-<div>
-<h3 class="font-headline-md text-headline-md font-bold text-on-surface leading-none">Java Alchemist</h3>
-<span class="font-label-sm text-label-sm text-secondary">Quest Rank: Master</span>
-</div>
-</div>
-<!-- Hexagon Stats Mockup -->
-<div class="relative h-40 flex items-center justify-center">
-<svg class="w-32 h-32 transform rotate-30" viewbox="0 0 100 100">
-<polygon class="text-outline-variant/30" fill="none" points="50,0 93.3,25 93.3,75 50,100 6.7,75 6.7,25" stroke="currentColor" stroke-width="1"></polygon>
-<polygon class="text-secondary" fill="rgba(93, 230, 255, 0.1)" points="50,10 84.6,30 84.6,70 50,90 15.4,70 15.4,30" stroke="currentColor" stroke-width="2"></polygon>
-<line class="text-secondary/50" stroke="currentColor" stroke-width="0.5" x1="50" x2="50" y1="50" y2="10"></line>
-<line class="text-secondary/50" stroke="currentColor" stroke-width="0.5" x1="50" x2="84.6" y1="50" y2="30"></line>
-<line class="text-secondary/50" stroke="currentColor" stroke-width="0.5" x1="50" x2="84.6" y1="50" y2="70"></line>
-<line class="text-secondary/50" stroke="currentColor" stroke-width="0.5" x1="50" x2="50" y1="50" y2="90"></line>
-<line class="text-secondary/50" stroke="currentColor" stroke-width="0.5" x1="50" x2="15.4" y1="50" y2="70"></line>
-<line class="text-secondary/50" stroke="currentColor" stroke-width="0.5" x1="50" x2="15.4" y1="50" y2="30"></line>
-</svg>
-<div class="absolute top-0 left-1/2 -translate-x-1/2 font-label-sm text-[10px] text-on-surface-variant">Logic</div>
-<div class="absolute bottom-0 left-1/2 -translate-x-1/2 font-label-sm text-[10px] text-on-surface-variant">Design</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-</main>
+<body class="selection:bg-cyan-500/30">
 
-<!-- Single Unified Script Block for Supabase Route Guard -->
-<script src="supabase-config.js"></script>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const mainPortalBtn = document.querySelectorAll('.mode-toggle-bg button')[1];
+  <!-- Header -->
+  <header class="sticky top-0 z-50 w-full flex justify-between items-center px-6 py-4 bg-slate-900/80 backdrop-blur-md border-b border-slate-800">
+    <div class="flex items-center gap-2">
+      <div class="w-10 h-10 bg-gradient-to-br from-cyan-400 to-purple-500 rounded-lg flex items-center justify-center neon-glow-cyan text-slate-950 font-bold">
+        QP
+      </div>
+      <span class="text-2xl font-extrabold tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-400">QuestPath</span>
+    </div>
 
-    if (mainPortalBtn) {
-      mainPortalBtn.addEventListener('click', async () => {
-        // Query current session live from Supabase
-        const { data: { session } } = await supabase.auth.getSession();
+    <!-- Mode Switcher -->
+    <div class="hidden md:flex items-center bg-slate-950 p-1 rounded-full border border-cyan-500/20">
+      <button class="px-4 py-2 rounded-full bg-cyan-400 text-slate-950 font-semibold text-xs flex items-center gap-2">
+        <span class="material-symbols-outlined text-sm">search</span> Exam Finder
+      </button>
+      <button id="portal-toggle-btn" class="px-4 py-2 rounded-full text-slate-400 hover:text-cyan-400 font-semibold text-xs flex items-center gap-2 transition">
+        <span class="material-symbols-outlined text-sm">rocket_launch</span> Main Portal
+        <span class="material-symbols-outlined text-xs">lock</span>
+      </button>
+    </div>
 
-        if (!session) {
-          // User not logged in -> Alert & Redirect to login terminal
-          alert('Roadmap Portal is locked. Please Sign In to access your custom paths.');
-          window.location.href = "login.html";
-        } else {
-          // User logged in -> Go to roadmap dashboard
-          window.location.href = "first.html";
-        }
-      });
-    }
-  });
-</script>
+    <!-- Sign In Button -->
+    <div>
+      <a href="login.html" class="flex items-center gap-2 px-5 py-2.5 bg-purple-500 text-slate-950 font-bold text-sm rounded-xl hover:scale-105 transition shadow-lg shadow-purple-500/20">
+        <span class="material-symbols-outlined text-sm">account_circle</span> Sign In / Register
+      </a>
+    </div>
+  </header>
 
-<footer class="px-margin-mobile md:px-xl py-lg border-t border-outline-variant/20 bg-surface-container-lowest">
-<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-md">
-<div class="flex items-center gap-xs grayscale opacity-50">
-<div class="w-8 h-8 bg-surface-container rounded flex items-center justify-center">
-<span class="material-symbols-outlined text-on-surface-variant text-[16px]">terminal</span>
-</div>
-<span class="font-label-sm text-label-sm font-bold tracking-tighter">QuestPath © 2026</span>
-</div>
-<div class="flex gap-lg font-label-sm text-label-sm text-on-surface-variant">
-<a class="hover:text-secondary transition-colors" href="#">Documentation</a>
-<a class="hover:text-secondary transition-colors" href="#">Privacy Policy</a>
-<a class="hover:text-secondary transition-colors" href="#">Support Hub</a>
-</div>
-<div class="flex gap-sm">
-<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:bg-secondary/20 hover:text-secondary transition-all cursor-pointer">
-<span class="material-symbols-outlined">share</span>
-</div>
-<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:bg-secondary/20 hover:text-secondary transition-all cursor-pointer">
-<span class="material-symbols-outlined">chat</span>
-</div>
-</div>
-</div>
-</footer>
+  <!-- Hero Section -->
+  <main class="max-w-6xl mx-auto px-6 py-12 space-y-16">
+    <section class="text-center space-y-6">
+      <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight">
+        Find Your Dream College by <br/>
+        <span class="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-400">Exam Scores</span>
+      </h1>
+      <p class="text-slate-400 max-w-2xl mx-auto text-base md:text-lg">
+        Search offline database of colleges and cutoff percentiles instantly. JEE, NEET, MHT-CET, and State Boards supported.
+      </p>
+
+      <!-- Multi-Filter Search Panel -->
+      <div class="glass-panel p-6 rounded-2xl border border-cyan-500/20 text-left max-w-4xl mx-auto shadow-2xl">
+        <form id="college-search-form" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-cyan-400 mb-1">Exam Type</label>
+            <select class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm text-slate-200 outline-none focus:border-cyan-400">
+              <option>JEE Main</option>
+              <option>NEET</option>
+              <option>MHT-CET</option>
+              <option>Board Marks</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-cyan-400 mb-1">Score / Percentile</label>
+            <input type="text" placeholder="e.g. 98.4" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm text-slate-200 outline-none focus:border-cyan-400"/>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-cyan-400 mb-1">Category</label>
+            <select class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm text-slate-200 outline-none focus:border-cyan-400">
+              <option>General</option>
+              <option>OBC-NCL</option>
+              <option>SC / ST</option>
+              <option>EWS</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-cyan-400 mb-1">City / Region</label>
+            <input type="text" placeholder="Nagpur, Pune..." class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm text-slate-200 outline-none focus:border-cyan-400"/>
+          </div>
+          <div class="md:col-span-4 mt-2">
+            <button type="submit" class="w-full py-3 bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold rounded-xl transition neon-glow-cyan">
+              Search Colleges
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Promotional Gated Preview Grid -->
+    <section class="space-y-6">
+      <h2 class="text-2xl font-bold text-slate-200">Explore What Awaits Inside QuestPath</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Card 1 -->
+        <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group border border-purple-500/20">
+          <div class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm flex flex-col items-center justify-center gap-3">
+            <span class="material-symbols-outlined text-purple-400 text-3xl">lock</span>
+            <span class="text-xs font-bold text-purple-300">Sign in to Access Roadmaps</span>
+            <a href="login.html" class="px-4 py-2 bg-purple-500 text-slate-950 rounded-lg text-xs font-bold hover:scale-105 transition">Login to Unlock</a>
+          </div>
+          <h3 class="text-lg font-bold text-slate-200">Skill Tree</h3>
+          <p class="text-xs text-slate-400 mt-2">Master engineering through node-based career pathways.</p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group border border-amber-500/20">
+          <div class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm flex flex-col items-center justify-center gap-3">
+            <span class="material-symbols-outlined text-amber-400 text-3xl">military_tech</span>
+            <span class="text-xs font-bold text-amber-300">Login to Compete</span>
+            <a href="login.html" class="px-4 py-2 bg-amber-500 text-slate-950 rounded-lg text-xs font-bold hover:scale-105 transition">Join Leaderboard</a>
+          </div>
+          <h3 class="text-lg font-bold text-slate-200">Regional Guild</h3>
+          <p class="text-xs text-slate-400 mt-2">Compete with top verified students in your city.</p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group border border-cyan-500/20">
+          <div class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm flex flex-col items-center justify-center gap-3">
+            <span class="material-symbols-outlined text-cyan-400 text-3xl">person_search</span>
+            <span class="text-xs font-bold text-cyan-300">Build Your Resume</span>
+            <a href="login.html" class="px-4 py-2 bg-cyan-400 text-slate-950 rounded-lg text-xs font-bold hover:scale-105 transition">Create Profile</a>
+          </div>
+          <h3 class="text-lg font-bold text-slate-200">Dual Hero Profile</h3>
+          <p class="text-xs text-slate-400 mt-2">Toggle between RPG avatar view and recruiter-ready PDF view.</p>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // -------------------------------------------------------------
+    // TODO: BACKEND INTEGRATION - AUTH GATE & OFFLINE SEARCH
+    // -------------------------------------------------------------
+    document.getElementById('portal-toggle-btn').addEventListener('click', () => {
+      // Mock Check: Replace with your actual auth token or backend session verification
+      const isAuthenticated = false; 
+
+      if (!isAuthenticated) {
+        alert('Roadmap Portal is locked. Please sign in to access your custom paths.');
+        window.location.href = "login.html";
+      } else {
+        window.location.href = "roadmap-dashboard.html";
+      }
+    });
+
+    document.getElementById('college-search-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      // TODO: Filter your local college dataset or call your backend search endpoint
+      alert('Searching colleges offline...');
+    });
+  </script>
 </body>
 </html>
