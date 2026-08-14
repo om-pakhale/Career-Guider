@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>QuestPath | Hero Profile</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=JetBrains+Mono:wght@100..800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <style>
+    body { background-color: #0b1326; color: #dae2fd; font-family: 'Geist', sans-serif; }
+    .glass-panel { background: rgba(23, 31, 51, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
+    .corp-mode { background-color: #f8fafc !important; color: #0f172a !important; }
+    .corp-mode .glass-panel { background-color: #ffffff !important; border: 1px solid #e2e8f0 !important; color: #0f172a !important; }
+  </style>
+</head>
+<body id="profile-body" class="min-h-screen p-6 max-w-5xl mx-auto space-y-8">
+
+  <!-- Header with Recruiter Toggle -->
+  <header class="flex flex-wrap justify-between items-center gap-4">
+    <a href="roadmap-dashboard.html" class="text-xs font-bold text-slate-400 hover:text-slate-200">
+      ← Back to Skill Tree
+    </a>
+    
+    <!-- Mode Switcher -->
+    <div class="flex items-center gap-3 bg-slate-900 p-2 rounded-full border border-slate-800">
+      <span id="label-rpg" class="text-xs font-bold text-cyan-400">RPG MODE</span>
+      <button onclick="toggleViewMode()" class="w-12 h-6 bg-purple-600 rounded-full p-1 transition flex items-center">
+        <div id="toggle-dot" class="w-4 h-4 bg-white rounded-full transition transform"></div>
+      </button>
+      <span id="label-recruiter" class="text-xs font-bold text-slate-500">RECRUITER VIEW</span>
+    </div>
+  </header>
+
+  <!-- Hero Profile Card -->
+  <section class="glass-panel p-6 md:p-8 rounded-2xl flex flex-col md:flex-row items-center gap-6 relative">
+    <div class="w-32 h-32 rounded-2xl bg-purple-900 border-2 border-cyan-400 flex items-center justify-center text-4xl shadow-lg">
+      🥷
+    </div>
+    <div class="flex-1 text-center md:text-left space-y-2">
+      <div class="flex flex-col md:flex-row md:items-center gap-2">
+        <h1 class="text-2xl font-bold text-slate-100">Aarav Sharma</h1>
+        <span class="text-xs font-bold px-3 py-1 rounded-md bg-cyan-950 text-cyan-300 border border-cyan-800 w-fit mx-auto md:mx-0">
+          Lv. 12 Cyber Shinobi
+        </span>
+      </div>
+      <p class="text-xs text-slate-400 max-w-lg">
+        B.Tech AI & Data Engineering student specializing in security architectures, vulnerability triage, and backend APIs.
+      </p>
+      <div class="text-xs text-slate-500">📍 Nagpur, Maharashtra, India</div>
+    </div>
+    
+    <!-- Export PDF Button (Shown in Recruiter Mode) -->
+    <button onclick="window.print()" class="px-5 py-2.5 bg-purple-500 text-slate-950 font-bold text-xs rounded-xl shadow hover:bg-purple-400 transition">
+      Export Verified PDF
+    </button>
+  </section>
+
+  <!-- Verified Skills Grid -->
+  <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="glass-panel p-5 rounded-xl border-l-4 border-cyan-400">
+      <h3 class="font-bold text-slate-200">Linux Systems</h3>
+      <p class="text-xs text-cyan-400 mt-1">Verified: Level 12</p>
+      <div class="w-full bg-slate-800 h-1.5 rounded-full mt-3">
+        <div class="bg-cyan-400 h-full rounded-full w-[85%]"></div>
+      </div>
+    </div>
+
+    <div class="glass-panel p-5 rounded-xl border-l-4 border-purple-400">
+      <h3 class="font-bold text-slate-200">Network Security</h3>
+      <p class="text-xs text-purple-400 mt-1">Verified: Level 8</p>
+      <div class="w-full bg-slate-800 h-1.5 rounded-full mt-3">
+        <div class="bg-purple-400 h-full rounded-full w-[60%]"></div>
+      </div>
+    </div>
+
+    <div class="glass-panel p-5 rounded-xl border-l-4 border-amber-400">
+      <h3 class="font-bold text-slate-200">Python Scripting</h3>
+      <p class="text-xs text-amber-400 mt-1">Verified: Level 5</p>
+      <div class="w-full bg-slate-800 h-1.5 rounded-full mt-3">
+        <div class="bg-amber-400 h-full rounded-full w-[40%]"></div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    let isCorpMode = false;
+    function toggleViewMode() {
+      isCorpMode = !isCorpMode;
+      const body = document.getElementById('profile-body');
+      const dot = document.getElementById('toggle-dot');
+      const labelRpg = document.getElementById('label-rpg');
+      const labelRecruiter = document.getElementById('label-recruiter');
+
+      if (isCorpMode) {
+        body.classList.add('corp-mode');
+        dot.classList.add('translate-x-6');
+        labelRecruiter.className = 'text-xs font-bold text-purple-600';
+        labelRpg.className = 'text-xs font-bold text-slate-400';
+      } else {
+        body.classList.remove('corp-mode');
+        dot.classList.remove('translate-x-6');
+        labelRpg.className = 'text-xs font-bold text-cyan-400';
+        labelRecruiter.className = 'text-xs font-bold text-slate-500';
+      }
+    }
+  </script>
+</body>
+</html>
