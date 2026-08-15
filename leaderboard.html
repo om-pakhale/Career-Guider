@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>QuestPath | Regional & National Rankings</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=JetBrains+Mono:wght@100..800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <style>
+    body { background-color: #0b1326; color: #dae2fd; font-family: 'Geist', sans-serif; }
+    .glass-panel { background: rgba(23, 31, 51, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
+  </style>
+</head>
+<body class="min-h-screen p-6 max-w-6xl mx-auto space-y-8">
+
+  <!-- Header -->
+  <div class="flex justify-between items-center">
+    <div>
+      <h1 class="text-3xl font-extrabold text-slate-100 flex items-center gap-2">🏆 Guild Hall Leaderboard</h1>
+      <p class="text-xs text-slate-400 mt-1">Top verified students based on completed nodes and anti-cheat quizzes.</p>
+    </div>
+    <a href="roadmap-dashboard.html" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-200 rounded-lg transition">
+      Back to Dashboard
+    </a>
+  </div>
+
+  <!-- Top 3 Podium Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+    <!-- Rank 2 -->
+    <div class="glass-panel p-6 rounded-2xl text-center border-slate-700 space-y-2 order-2 md:order-1">
+      <span class="text-xs font-bold text-slate-400 uppercase">Rank #2</span>
+      <h3 class="font-bold text-slate-200">Priya Patel</h3>
+      <p class="text-xs text-cyan-400">Software Alchemist</p>
+      <span class="inline-block bg-purple-950 px-3 py-1 rounded text-xs font-bold text-purple-300">Lv. 38</span>
+    </div>
+
+    <!-- Rank 1 (Elevated) -->
+    <div class="glass-panel p-8 rounded-2xl text-center border-2 border-amber-500 shadow-xl shadow-amber-500/10 space-y-2 order-1 md:order-2 transform md:-translate-y-4">
+      <span class="text-2xl">👑</span>
+      <span class="block text-xs font-bold text-amber-400 uppercase">Rank #1 Champion</span>
+      <h3 class="text-xl font-extrabold text-slate-100">Aarav Sharma</h3>
+      <p class="text-xs text-cyan-400">Cyber Shinobi • Nagpur</p>
+      <span class="inline-block bg-amber-950 px-4 py-1.5 rounded-full text-xs font-bold text-amber-300 border border-amber-800">Lv. 48 • 12,450 XP</span>
+    </div>
+
+    <!-- Rank 3 -->
+    <div class="glass-panel p-6 rounded-2xl text-center border-orange-500/30 space-y-2 order-3">
+      <span class="text-xs font-bold text-orange-400 uppercase">Rank #3</span>
+      <h3 class="font-bold text-slate-200">Vikram Singh</h3>
+      <p class="text-xs text-cyan-400">Data Wizard</p>
+      <span class="inline-block bg-purple-950 px-3 py-1 rounded text-xs font-bold text-purple-300">Lv. 35</span>
+    </div>
+  </div>
+
+  <!-- Ranks Table -->
+  <div class="glass-panel rounded-2xl overflow-hidden">
+    <div class="w-full overflow-x-auto">
+      <table class="w-full text-left text-sm text-slate-300">
+        <thead class="bg-slate-900/80 text-xs uppercase text-slate-400 border-b border-slate-800">
+          <tr>
+            <th class="p-4">Rank</th>
+            <th class="p-4">Student</th>
+            <th class="p-4">Track</th>
+            <th class="p-4">City</th>
+            <th class="p-4 text-right">Level</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboard-table-body" class="divide-y divide-slate-800/50">
+          <!-- Mock Rows -->
+          <tr>
+            <td class="p-4 font-mono font-bold text-slate-400">#4</td>
+            <td class="p-4 font-bold text-slate-200">Rohit Mehta</td>
+            <td class="p-4 text-xs text-slate-400">Cybersecurity</td>
+            <td class="p-4 text-xs text-slate-400">Pune</td>
+            <td class="p-4 text-right font-bold text-purple-400">Lv. 31</td>
+          </tr>
+          <tr>
+            <td class="p-4 font-mono font-bold text-slate-400">#5</td>
+            <td class="p-4 font-bold text-slate-200">Ananya Roy</td>
+            <td class="p-4 text-xs text-slate-400">AI & ML</td>
+            <td class="p-4 text-xs text-slate-400">Nagpur</td>
+            <td class="p-4 text-right font-bold text-purple-400">Lv. 29</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // -------------------------------------------------------------
+    // TODO: BACKEND INTEGRATION - FETCH LIVE RANKINGS
+    // -------------------------------------------------------------
+    async function loadRankings() {
+      console.log("TODO: Fetch top rankings from your backend database table.");
+    }
+    loadRankings();
+  </script>
+</body>
+</html>
