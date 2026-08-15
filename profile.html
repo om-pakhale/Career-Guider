@@ -12,6 +12,34 @@
     .corp-mode { background-color: #f8fafc !important; color: #0f172a !important; }
     .corp-mode .glass-panel { background-color: #ffffff !important; border: 1px solid #e2e8f0 !important; color: #0f172a !important; }
   </style>
+async function loadMyProfile() {
+  // 1. Get current authenticated user session
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+
+  if (authError || !user) {
+    alert("Session expired or invalid. Please log in.");
+    window.location.replace("login.html");
+    return;
+  }
+
+  // 2. Fetch profile - Database guarantees user can only retrieve their own row
+  const { data: profile, error: dbError } = await supabase
+    .from('student_profiles')
+    .select('*')
+    .eq('id', user.id)
+    .single();
+
+  if (dbError) {
+    console.error("Access denied or profile not found:", dbError.message);
+    return;
+  }
+
+  // 3. Render verified user data into the UI
+  document.getElementById('username').textContent = profile.full_name;
+  document.getElementById('user-level').textContent = `Lv. ${profile.level}`;
+}
+
+loadMyProfile();
 </head>
 <body id="profile-body" class="min-h-screen p-6 max-w-5xl mx-auto space-y-8">
 
