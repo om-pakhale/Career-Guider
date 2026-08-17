@@ -3,9 +3,12 @@
 <head>
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>QuestPath | Multi-Branch Skill Tree</title>
+  <title>QuestPath | Dynamic Skill Tree</title>
+  
+ 
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=JetBrains+Mono:wght@100..800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  
   <style>
     body { background-color: #0b1326; color: #dae2fd; font-family: 'Geist', sans-serif; overflow-x: hidden; }
     .glass-panel { background: rgba(23, 31, 51, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
@@ -17,39 +20,39 @@
     }
   </style>
 
-  <!-- Route Security Guard -->
+ 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="assets/js/supabase-config.js"></script>
   <script src="assets/js/auth-guard.js"></script>
 </head>
 <body class="min-h-screen flex flex-col grid-bg">
 
-  <!-- Top Header Navigation -->
-  <header class="sticky top-0 z-50 flex justify-between items-center px-6 py-3 bg-slate-900/80 backdrop-blur-md border-b border-slate-800">
-    <div class="flex items-center gap-3">
-      <span class="text-xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-400">QuestPath</span>
+ 
+  <header class="sticky top-0 z-50 flex justify-between items-center px-4 sm:px-6 py-3 bg-slate-900/80 backdrop-blur-md border-b border-slate-800">
+    <div class="flex items-center gap-2 sm:gap-3">
+      <span class="text-lg sm:text-xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-400">QuestPath</span>
     </div>
 
     <!-- Student Status Bar -->
-    <div class="flex items-center gap-6">
+    <div class="flex items-center gap-3 sm:gap-6">
       <div class="text-right hidden sm:block">
         <p id="username" class="text-xs font-bold text-cyan-400">Loading Profile...</p>
-        <p id="user-location" class="text-[10px] text-slate-400">Nagpur Rank #4</p>
+        <p id="user-location" class="text-[10px] text-slate-400">Nagpur Rank</p>
       </div>
-      <div class="w-32 sm:w-44 bg-slate-800 rounded-full h-3 p-0.5 border border-slate-700">
+      <div class="w-24 sm:w-44 bg-slate-800 rounded-full h-2.5 sm:h-3 p-0.5 border border-slate-700">
         <div class="bg-gradient-to-r from-cyan-400 to-purple-500 h-full rounded-full w-[65%]"></div>
       </div>
-      <div id="user-level" class="w-9 h-9 rounded-lg bg-purple-900 border border-purple-500 flex items-center justify-center font-bold text-purple-300 text-xs">
+      <div id="user-level" class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-purple-900 border border-purple-500 flex items-center justify-center font-bold text-purple-300 text-xs">
         Lv.1
       </div>
     </div>
   </header>
 
   <div class="flex flex-1">
-    <!-- Sidebar Navigation -->
-    <aside class="w-64 bg-slate-950/60 border-r border-slate-800 p-4 space-y-2 hidden md:block">
+    
+    <aside class="w-64 bg-slate-950/60 border-r border-slate-800 p-4 space-y-2 hidden md:block shrink-0">
       <a href="roadmap-dashboard.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-cyan-400/10 text-cyan-400 border border-cyan-400/30 text-sm font-semibold">
-        <span class="material-symbols-outlined text-sm">account_tree</span> Multi-Branch Tree
+        <span class="material-symbols-outlined text-sm">account_tree</span> Skill Tree
       </a>
       <a href="leaderboard.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-slate-400 hover:text-slate-200 text-sm font-semibold transition">
         <span class="material-symbols-outlined text-sm">leaderboard</span> Leaderboard
@@ -59,23 +62,23 @@
       </a>
     </aside>
 
-    <!-- Main Canvas Area -->
-    <main class="flex-1 p-6 md:p-8 space-y-6 overflow-y-auto">
-      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+    
+    <main class="flex-1 p-4 sm:p-6 md:p-8 space-y-6 overflow-y-auto w-full">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 border-b border-slate-800/60 pb-4">
         <div>
-          <h1 class="text-2xl font-bold text-slate-100">Full-Stack & Systems Architecture Pathway</h1>
-          <p class="text-xs text-slate-400 mt-1">Foundations branch into Frontend, Backend, and Security, converging into the Capstone Deploy.</p>
+          <h1 id="roadmap-title" class="text-xl sm:text-2xl font-bold text-slate-100">Personalized Skill Tree</h1>
+          <p id="roadmap-desc" class="text-xs text-slate-400 mt-1">Multi-branch Directed Acyclic Graph based on your interest assessment.</p>
         </div>
-        <div class="flex gap-2">
-          <span class="px-3 py-1 bg-emerald-950/60 text-emerald-400 border border-emerald-800 rounded-lg text-xs font-mono font-bold">✓ 2 Completed</span>
-          <span class="px-3 py-1 bg-cyan-950/60 text-cyan-400 border border-cyan-800 rounded-lg text-xs font-mono font-bold">● 2 Active</span>
+        <div class="flex gap-2 self-start md:self-auto">
+          <span class="px-3 py-1 bg-emerald-950/60 text-emerald-400 border border-emerald-800 rounded-lg text-xs font-mono font-bold">✓ Mastered</span>
+          <span class="px-3 py-1 bg-cyan-950/60 text-cyan-400 border border-cyan-800 rounded-lg text-xs font-mono font-bold">● In Progress</span>
         </div>
       </div>
 
-      <!-- Graph Tree Rendering Container -->
-      <div class="glass-panel p-6 rounded-2xl relative overflow-x-auto min-w-[700px]">
-        <div id="skill-tree-container" class="flex flex-col items-center justify-center">
-          <!-- Dynamic SVG & Cards injected by roadmap-graph.js -->
+      
+      <div class="glass-panel p-4 sm:p-6 rounded-2xl relative overflow-x-auto">
+        <div id="skill-tree-container" class="flex flex-col items-center justify-center min-w-[280px]">
+        
         </div>
       </div>
     </main>
@@ -109,7 +112,13 @@
     </div>
   </div>
 
-  <!-- Scripts -->
+  <script src="assets/js/roadmaps/cybersecurity-roadmaps.js"></script>
+  <script src="assets/js/roadmaps/software-roadmaps.js"></script>
+  <script src="assets/js/roadmaps/aiml-roadmaps.js"></script>
+  <script src="assets/js/roadmaps/core-engineering.js"></script>
+
+  <script src="assets/js/roadmap-registry.js"></script>
+
   <script src="assets/js/roadmap-graph.js"></script>
   <script src="assets/js/dashboard-backend.js"></script>
 </body>
