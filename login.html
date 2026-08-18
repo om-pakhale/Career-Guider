@@ -3,113 +3,150 @@
 <head>
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>QuestPath | Member Terminal</title>
+  <title>QuestPath | Student Terminal Access</title>
+  
+  <!-- Tailwind CSS & Fonts -->
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=JetBrains+Mono:wght@100..800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  
   <style>
     body { background-color: #020617; color: #dae2fd; font-family: 'Geist', sans-serif; }
-    .glass-panel { background: rgba(30, 41, 59, 0.6); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.1); }
-    .tab-active { color: #ddb7ff; border-bottom: 2px solid #ddb7ff; }
+    .glass-panel { background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
+    .neon-cyan { box-shadow: 0 0 20px rgba(6, 182, 212, 0.25); }
+    .tab-active { color: #38bdf8; border-bottom: 2px solid #38bdf8; }
   </style>
-</head>
-<body class="min-h-screen flex items-center justify-center p-4">
 
-  <div class="glass-panel w-full max-w-xl rounded-2xl overflow-hidden shadow-2xl border border-purple-500/20">
-    <div class="bg-purple-950/80 border-b border-purple-800/40 py-2.5 px-6 flex items-center gap-2 text-purple-300 text-xs font-semibold uppercase tracking-wider">
-      <span class="material-symbols-outlined text-sm">lock</span> Member Terminal Access Required
+  <!-- External Supabase Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/supabase-config.js"></script>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 sm:p-6 selection:bg-cyan-500/30">
+
+  <!-- Main Terminal Card Container -->
+  <div class="glass-panel w-full max-w-lg rounded-2xl overflow-hidden shadow-2xl border border-cyan-500/20">
+    
+    <!-- Terminal Header Bar -->
+    <div class="bg-slate-900/90 border-b border-slate-800 py-3 px-6 flex items-center justify-between">
+      <div class="flex items-center gap-2 text-cyan-400 text-xs font-mono font-semibold uppercase tracking-wider">
+        <span class="material-symbols-outlined text-sm">terminal</span> QuestPath Auth Gate
+      </div>
+      <a href="index.html" class="text-[11px] text-slate-400 hover:text-cyan-300 font-mono transition flex items-center gap-1">
+        <span class="material-symbols-outlined text-xs">arrow_back</span> College Finder
+      </a>
     </div>
 
-    <div class="p-6 md:p-8 space-y-6">
-      <div class="text-center">
-        <h2 class="text-2xl font-bold text-purple-300">QuestPath Terminal</h2>
-        <p class="text-xs text-slate-400 mt-1">Sign in to your account or register as a new student</p>
+    <!-- Main Content Area -->
+    <div class="p-6 sm:p-8 space-y-6">
+      <div class="text-center space-y-1">
+        <h2 class="text-2xl font-extrabold text-slate-100 tracking-tight">Access Your Pathway</h2>
+        <p class="text-xs text-slate-400">Sign in to track progress or register your student profile</p>
       </div>
 
+      <!-- Mode Selector Tabs (Sign In vs Register) -->
       <div class="flex border-b border-slate-800 text-xs font-bold">
-        <button id="tab-login" onclick="switchAuthTab('login')" class="flex-1 py-3 tab-active transition">LOGIN</button>
-        <button id="tab-register" onclick="switchAuthTab('register')" class="flex-1 py-3 text-slate-400 hover:text-slate-200 transition">NEW STUDENT REGISTER</button>
+        <button id="tab-login" onclick="switchAuthTab('login')" class="flex-1 py-3 tab-active transition">
+          SIGN IN
+        </button>
+        <button id="tab-register" onclick="switchAuthTab('register')" class="flex-1 py-3 text-slate-400 hover:text-slate-200 transition">
+          NEW STUDENT REGISTER
+        </button>
       </div>
 
+      <!-- Form -->
       <form id="auth-form" class="space-y-4">
+        
+        <!-- Full Name (Register Only) -->
         <div id="field-name" class="hidden">
           <label class="block text-xs font-semibold text-cyan-400 mb-1">Full Name</label>
-          <input type="text" id="input-name" placeholder="Aarav Sharma" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm text-slate-200 outline-none focus:border-cyan-400"/>
+          <input type="text" id="input-name" placeholder="e.g. Aarav Sharma" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs sm:text-sm text-slate-200 outline-none focus:border-cyan-400 transition"/>
         </div>
 
+        <!-- Email Address -->
         <div>
           <label class="block text-xs font-semibold text-cyan-400 mb-1">Email Address</label>
-          <input type="email" id="input-email" required placeholder="student@example.com" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm text-slate-200 outline-none focus:border-cyan-400"/>
+          <input type="email" id="input-email" required placeholder="student@example.com" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs sm:text-sm text-slate-200 outline-none focus:border-cyan-400 transition"/>
         </div>
 
+        <!-- Password -->
         <div>
           <label class="block text-xs font-semibold text-cyan-400 mb-1">Password</label>
-          <input type="password" id="input-password" required placeholder="••••••••" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm text-slate-200 outline-none focus:border-cyan-400"/>
+          <input type="password" id="input-password" required placeholder="••••••••" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs sm:text-sm text-slate-200 outline-none focus:border-cyan-400 transition"/>
         </div>
 
-        <div id="field-education" class="hidden space-y-4 pt-2 border-t border-slate-800">
-          <label class="block text-xs font-semibold text-cyan-400">Select Education Status</label>
+        <!-- City / Region (Register Only) -->
+        <div id="field-city" class="hidden">
+          <label class="block text-xs font-semibold text-cyan-400 mb-1">City / Region (For Guild Rankings)</label>
+          <input type="text" id="input-city" placeholder="e.g. Nagpur, Pune, Mumbai" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs sm:text-sm text-slate-200 outline-none focus:border-cyan-400 transition"/>
+        </div>
+
+        <!-- Education Branching Section (Register Only) -->
+        <div id="field-education" class="hidden space-y-4 pt-3 border-t border-slate-800">
+          <label class="block text-xs font-semibold text-cyan-400">Education Type</label>
           <div class="grid grid-cols-2 gap-3">
-            <button type="button" id="btn-school" onclick="selectEduType('school')" class="py-2 px-3 rounded-lg border border-cyan-400 bg-cyan-400/10 text-cyan-300 text-xs font-bold transition">
+            <button type="button" id="btn-school" onclick="selectEduType('school')" class="py-2 px-3 rounded-xl border border-cyan-400 bg-cyan-400/10 text-cyan-300 text-xs font-bold transition">
               🏫 School Student
             </button>
-            <button type="button" id="btn-college" onclick="selectEduType('college')" class="py-2 px-3 rounded-lg border border-slate-700 text-slate-400 text-xs font-bold transition">
+            <button type="button" id="btn-college" onclick="selectEduType('college')" class="py-2 px-3 rounded-xl border border-slate-700 text-slate-400 text-xs font-bold transition">
               🎓 College Student
             </button>
           </div>
 
+          <!-- School Subfields -->
           <div id="school-subfields" class="space-y-3">
             <div>
               <label class="block text-xs text-slate-400 mb-1">School Name</label>
-              <input type="text" id="input-school-name" placeholder="St. Xavier High School" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-slate-200 outline-none focus:border-cyan-400"/>
+              <input type="text" id="input-school-name" placeholder="e.g. St. Xavier High School" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-slate-200 outline-none focus:border-cyan-400"/>
             </div>
             <div>
               <label class="block text-xs text-slate-400 mb-1">Class / Grade</label>
-              <select id="input-school-grade" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-slate-200 outline-none focus:border-cyan-400">
-                <option>Class 9th</option>
-                <option>Class 10th</option>
-                <option>Class 11th (Science)</option>
-                <option>Class 12th (Science)</option>
+              <select id="input-school-grade" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-slate-200 outline-none focus:border-cyan-400">
+                <option value="Class 9th">Class 9th</option>
+                <option value="Class 10th">Class 10th</option>
+                <option value="Class 11th (Science)">Class 11th (Science)</option>
+                <option value="Class 12th (Science)">Class 12th (Science)</option>
               </select>
             </div>
           </div>
 
+          <!-- College Subfields -->
           <div id="college-subfields" class="hidden space-y-3">
             <div>
               <label class="block text-xs text-slate-400 mb-1">College / Institute Name</label>
-              <input type="text" id="input-college-name" placeholder="DKTE Society Institute" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-slate-200 outline-none focus:border-cyan-400"/>
+              <input type="text" id="input-college-name" placeholder="e.g. DKTE Society's Institute" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-slate-200 outline-none focus:border-cyan-400"/>
             </div>
             <div class="grid grid-cols-2 gap-2">
               <div>
-                <label class="block text-xs text-slate-400 mb-1">Year</label>
-                <select id="input-college-year" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-slate-200 outline-none focus:border-cyan-400">
-                  <option>1st Year</option>
-                  <option>2nd Year</option>
-                  <option>3rd Year</option>
-                  <option>4th Year</option>
+                <label class="block text-xs text-slate-400 mb-1">Academic Year</label>
+                <select id="input-college-year" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-slate-200 outline-none focus:border-cyan-400">
+                  <option value="1st Year">1st Year</option>
+                  <option value="2nd Year">2nd Year</option>
+                  <option value="3rd Year">3rd Year</option>
+                  <option value="4th Year">4th Year</option>
                 </select>
               </div>
               <div>
-                <label class="block text-xs text-slate-400 mb-1">Department</label>
-                <select id="input-college-dept" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-slate-200 outline-none focus:border-cyan-400">
-                  <option>AI & Machine Learning</option>
-                  <option>Computer Science</option>
-                  <option>Cybersecurity</option>
-                  <option>Electronics</option>
+                <label class="block text-xs text-slate-400 mb-1">Department / Branch</label>
+                <select id="input-college-dept" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-slate-200 outline-none focus:border-cyan-400">
+                  <option value="AI & Machine Learning">AI & Machine Learning</option>
+                  <option value="Cybersecurity">Cybersecurity</option>
+                  <option value="Computer Science">Computer Science</option>
+                  <option value="Information Technology">Information Technology</option>
+                  <option value="Electronics & Telecommunication">Electronics & Telecom</option>
                 </select>
               </div>
             </div>
           </div>
         </div>
 
-        <button type="submit" id="btn-submit" class="w-full py-3 bg-gradient-to-r from-cyan-400 to-purple-500 text-slate-950 font-bold rounded-xl transition hover:opacity-90 mt-4">
+        <!-- Submit Button -->
+        <button type="submit" id="btn-submit" class="w-full py-3 bg-gradient-to-r from-cyan-400 to-blue-500 text-slate-950 font-bold rounded-xl text-xs sm:text-sm transition hover:opacity-90 neon-cyan mt-4">
           Unlock My Dashboard
         </button>
       </form>
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="assets/js/supabase-config.js"></script>
+  <!-- LOAD DEDICATED BACKEND SCRIPT -->
   <script src="assets/js/login-backend.js"></script>
 </body>
 </html>
