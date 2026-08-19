@@ -3,15 +3,16 @@
 <head>
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>QuestPath | Dynamic Skill Tree</title>
+  <title>QuestPath | Multi-Branch Skill Tree Dashboard</title>
   
- 
+  
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=JetBrains+Mono:wght@100..800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
   
   <style>
-    body { background-color: #0b1326; color: #dae2fd; font-family: 'Geist', sans-serif; overflow-x: hidden; }
-    .glass-panel { background: rgba(23, 31, 51, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
+    body { background-color: #020617; color: #dae2fd; font-family: 'Geist', sans-serif; overflow-x: hidden; }
+    .glass-panel { background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
+    .neon-cyan { box-shadow: 0 0 20px rgba(6, 182, 212, 0.25); }
     .grid-bg {
       background-image: 
         linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
@@ -20,71 +21,119 @@
     }
   </style>
 
- 
+  
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="assets/js/supabase-config.js"></script>
   <script src="assets/js/auth-guard.js"></script>
 </head>
-<body class="min-h-screen flex flex-col grid-bg">
+<body class="min-h-screen flex flex-col grid-bg selection:bg-cyan-500/30">
 
- 
-  <header class="sticky top-0 z-50 flex justify-between items-center px-4 sm:px-6 py-3 bg-slate-900/80 backdrop-blur-md border-b border-slate-800">
-    <div class="flex items-center gap-2 sm:gap-3">
-      <span class="text-lg sm:text-xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-400">QuestPath</span>
+  <header class="sticky top-0 z-50 flex justify-between items-center px-4 sm:px-6 py-3 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 bg-gradient-to-br from-cyan-400 to-purple-500 rounded-lg flex items-center justify-center font-bold text-slate-950 neon-cyan text-sm">
+        QP
+      </div>
+      <span class="text-lg sm:text-xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-400">
+        QuestPath
+      </span>
     </div>
 
-    <!-- Student Status Bar -->
-    <div class="flex items-center gap-3 sm:gap-6">
+    
+    <div class="flex items-center bg-slate-950 p-1 rounded-full border border-slate-800">
+      <a href="index.html" class="px-3.5 sm:px-4 py-1.5 rounded-full text-slate-400 hover:text-cyan-300 font-bold text-xs flex items-center gap-1.5 transition">
+        <span class="material-symbols-outlined text-sm">search</span> Exam Finder
+      </a>
+      <button class="px-3.5 sm:px-4 py-1.5 rounded-full bg-cyan-400 text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow">
+        <span class="material-symbols-outlined text-sm">account_tree</span> Roadmap Portal
+      </button>
+    </div>
+
+
+    <div class="flex items-center gap-3 sm:gap-4">
       <div class="text-right hidden sm:block">
-        <p id="username" class="text-xs font-bold text-cyan-400">Loading Profile...</p>
-        <p id="user-location" class="text-[10px] text-slate-400">Nagpur Rank</p>
+        <p id="header-username" class="text-xs font-bold text-slate-200">Loading...</p>
+        <p id="header-title" class="text-[10px] text-cyan-400 font-mono">Adventurer</p>
       </div>
-      <div class="w-24 sm:w-44 bg-slate-800 rounded-full h-2.5 sm:h-3 p-0.5 border border-slate-700">
-        <div class="bg-gradient-to-r from-cyan-400 to-purple-500 h-full rounded-full w-[65%]"></div>
+      <div class="w-20 sm:w-32 bg-slate-950 rounded-full h-2.5 p-0.5 border border-slate-800">
+        <div id="header-xp-bar" class="bg-gradient-to-r from-cyan-400 to-purple-500 h-full rounded-full w-[40%] transition-all duration-500"></div>
       </div>
-      <div id="user-level" class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-purple-900 border border-purple-500 flex items-center justify-center font-bold text-purple-300 text-xs">
+      <div id="header-user-level" class="w-8 h-8 rounded-lg bg-cyan-950 border border-cyan-800 flex items-center justify-center font-bold text-cyan-300 text-xs font-mono">
         Lv.1
       </div>
     </div>
   </header>
 
   <div class="flex flex-1">
-    
-    <aside class="w-64 bg-slate-950/60 border-r border-slate-800 p-4 space-y-2 hidden md:block shrink-0">
-      <a href="roadmap-dashboard.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-cyan-400/10 text-cyan-400 border border-cyan-400/30 text-sm font-semibold">
+   
+      <a href="roadmap-dashboard.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-cyan-400/10 text-cyan-400 border border-cyan-400/30 text-xs font-bold">
         <span class="material-symbols-outlined text-sm">account_tree</span> Skill Tree
       </a>
-      <a href="leaderboard.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-slate-400 hover:text-slate-200 text-sm font-semibold transition">
-        <span class="material-symbols-outlined text-sm">leaderboard</span> Leaderboard
+      <a href="leaderboard.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-slate-400 hover:text-slate-200 text-xs font-bold transition">
+        <span class="material-symbols-outlined text-sm">military_tech</span> Guild Hall (Leaderboard)
       </a>
-      <a href="profile.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-slate-400 hover:text-slate-200 text-sm font-semibold transition">
-        <span class="material-symbols-outlined text-sm">person</span> My Profile
+      <a href="profile.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-slate-400 hover:text-slate-200 text-xs font-bold transition">
+        <span class="material-symbols-outlined text-sm">badge</span> Hero Profile & ATS Resume
       </a>
     </aside>
 
-    
-    <main class="flex-1 p-4 sm:p-6 md:p-8 space-y-6 overflow-y-auto w-full">
-      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 border-b border-slate-800/60 pb-4">
+    <!-- ======================================================== -->
+    <!-- 3. MAIN DASHBOARD AREA -->
+    <!-- ======================================================== -->
+    <main class="flex-1 p-4 sm:p-6 md:p-8 space-y-6 overflow-y-auto w-full max-w-7xl mx-auto">
+      
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-800/80 pb-4">
         <div>
-          <h1 id="roadmap-title" class="text-xl sm:text-2xl font-bold text-slate-100">Personalized Skill Tree</h1>
-          <p id="roadmap-desc" class="text-xs text-slate-400 mt-1">Multi-branch Directed Acyclic Graph based on your interest assessment.</p>
+          <h1 id="roadmap-title" class="text-xl sm:text-2xl font-extrabold text-slate-100">Personalized Skill Tree</h1>
+          <p id="roadmap-desc" class="text-xs text-slate-400 mt-1 max-w-2xl">
+            Multi-branch Directed Acyclic Graph (DAG) branching into specialized domains and converging to Capstone.
+          </p>
         </div>
-        <div class="flex gap-2 self-start md:self-auto">
-          <span class="px-3 py-1 bg-emerald-950/60 text-emerald-400 border border-emerald-800 rounded-lg text-xs font-mono font-bold">✓ Mastered</span>
-          <span class="px-3 py-1 bg-cyan-950/60 text-cyan-400 border border-cyan-800 rounded-lg text-xs font-mono font-bold">● In Progress</span>
+        <div class="flex gap-2">
+          <span id="header-city-rank" class="px-3 py-1 bg-slate-900 text-purple-300 border border-slate-800 rounded-xl text-xs font-mono font-bold">Nagpur Rank</span>
+          <span class="px-3 py-1 bg-cyan-950 text-cyan-400 border border-cyan-800 rounded-xl text-xs font-mono font-bold">Live DAG</span>
         </div>
       </div>
 
       
-      <div class="glass-panel p-4 sm:p-6 rounded-2xl relative overflow-x-auto">
-        <div id="skill-tree-container" class="flex flex-col items-center justify-center min-w-[280px]">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
+        
+        <div class="lg:col-span-2 glass-panel p-4 sm:p-6 rounded-2xl relative overflow-x-auto">
+          <div class="flex justify-between items-center mb-4 border-b border-slate-800/60 pb-3">
+            <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-2">
+              <span class="material-symbols-outlined text-cyan-400 text-sm">hub</span> Technical Node Network
+            </h3>
+            <span class="text-[11px] text-slate-500 font-mono">Click active node to verify mastery</span>
+          </div>
+
+          <div id="skill-tree-container" class="flex flex-col items-center justify-center min-w-[300px]">
+           
+          </div>
         </div>
+
+       
+        <div class="space-y-4">
+          <div class="glass-panel p-5 rounded-2xl space-y-3 border-purple-500/20">
+            <div class="flex justify-between items-center border-b border-slate-800/60 pb-2">
+              <h3 class="text-xs font-bold text-purple-300 uppercase tracking-wider flex items-center gap-2">
+                <span class="material-symbols-outlined text-purple-400 text-sm">psychology</span> Soft-Skills Side Quests
+              </h3>
+              <span class="text-[10px] text-purple-400 font-mono">Bonus XP</span>
+            </div>
+            
+            <div id="soft-skills-container" class="space-y-3">
+           
+            </div>
+          </div>
+        </div>
+
       </div>
     </main>
   </div>
 
-  <!-- Interactive Node Detail Modal -->
+  <!-- ======================================================== -->
+  <!-- 4. NODE DETAIL MODAL -->
+  <!-- ======================================================== -->
   <div id="node-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
     <div class="glass-panel w-full max-w-md rounded-2xl p-6 space-y-4 border border-cyan-500/30 shadow-2xl">
       <div class="flex justify-between items-start">
@@ -106,9 +155,67 @@
         <span id="modal-node-xp" class="text-cyan-400 font-mono font-bold">+500 XP</span>
       </div>
 
-      <button id="modal-action-btn" class="w-full py-2.5 bg-cyan-400 text-slate-950 font-bold rounded-xl text-xs transition">
-        Start Lab Challenge ➔
+      <button id="modal-action-btn" class="w-full py-2.5 bg-gradient-to-r from-cyan-400 to-blue-500 text-slate-950 font-bold rounded-xl text-xs transition">
+        Verify Mastery ➔
       </button>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- 5. DUAL-VERIFICATION WORKFLOW MODAL (QUIZ OR CERTIFICATE) -->
+  <!-- ======================================================== -->
+  <div id="node-verifier-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md overflow-y-auto">
+    <div class="glass-panel w-full max-w-xl rounded-2xl p-6 space-y-5 border border-cyan-500/30 shadow-2xl my-8">
+      
+      <div class="flex justify-between items-start">
+        <div>
+          <h3 id="verifier-modal-title" class="text-base sm:text-lg font-bold text-slate-100">Verify Mastery</h3>
+          <div class="flex gap-2 mt-1">
+            <span id="verifier-skill-badge" class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800">Skill Level</span>
+            <span id="verifier-xp-badge" class="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-950 text-purple-300 border border-purple-800">+XP</span>
+          </div>
+        </div>
+        <button onclick="closeVerifierModal()" class="text-slate-400 hover:text-slate-200">
+          <span class="material-symbols-outlined text-sm">close</span>
+        </button>
+      </div>
+
+
+      <div class="flex bg-slate-900 p-1 rounded-xl border border-slate-800 gap-1">
+        <button id="tab-verify-quiz" onclick="switchVerifierTab('quiz')" class="flex-1 py-2 rounded-lg bg-cyan-400/10 text-cyan-400 font-bold text-xs border border-cyan-400/30 transition">
+          Method 1: Technical Check Quiz
+        </button>
+        <button id="tab-verify-cert" onclick="switchVerifierTab('cert')" class="flex-1 py-2 text-slate-400 hover:text-slate-200 font-bold text-xs transition">
+          Method 2: Upload Certificate Proof
+        </button>
+      </div>
+
+     
+      <div id="section-verify-quiz" class="space-y-4">
+        <p class="text-xs text-slate-400">Score at least 80% on this technical check to unlock this node and increment your verified skill level.</p>
+        <form id="quiz-questions-form" onsubmit="submitNodeQuiz(event)" class="space-y-3 max-h-72 overflow-y-auto pr-1">
+         
+        </form>
+        <button type="submit" form="quiz-questions-form" class="w-full py-3 bg-gradient-to-r from-cyan-400 to-blue-500 text-slate-950 font-bold rounded-xl text-xs sm:text-sm transition hover:opacity-90 neon-cyan">
+          Submit Answers & Verify Mastery
+        </button>
+      </div>
+
+      
+      <div id="section-verify-cert" class="hidden space-y-4">
+        <p class="text-xs text-slate-400">Have a certificate from Coursera, NPTEL, Infosys Springboard, or a verified institute? Upload the PDF or image proof.</p>
+        <form onsubmit="submitCertificateProof(event)" class="space-y-4">
+          <div class="border-2 border-dashed border-slate-700 hover:border-cyan-400/60 rounded-xl p-6 text-center space-y-2 cursor-pointer bg-slate-900/40">
+            <span class="material-symbols-outlined text-3xl text-cyan-400">upload_file</span>
+            <p class="text-xs text-slate-300 font-semibold">Choose certificate file (PDF, PNG, JPG)</p>
+            <input type="file" id="cert-file-input" accept=".pdf,.png,.jpg,.jpeg" required class="w-full text-xs text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-cyan-950 file:text-cyan-300 hover:file:bg-cyan-900"/>
+          </div>
+          <button type="submit" id="btn-upload-cert" class="w-full py-3 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-bold rounded-xl text-xs sm:text-sm transition hover:opacity-90 shadow-lg shadow-purple-500/20">
+            Submit Certificate for Instant Verification
+          </button>
+        </form>
+      </div>
+
     </div>
   </div>
 
@@ -116,10 +223,9 @@
   <script src="assets/js/roadmaps/software-roadmaps.js"></script>
   <script src="assets/js/roadmaps/aiml-roadmaps.js"></script>
   <script src="assets/js/roadmaps/core-engineering.js"></script>
-
   <script src="assets/js/roadmap-registry.js"></script>
-
   <script src="assets/js/roadmap-graph.js"></script>
+  <script src="assets/js/node-verifier.js"></script>
   <script src="assets/js/dashboard-backend.js"></script>
 </body>
 </html>
