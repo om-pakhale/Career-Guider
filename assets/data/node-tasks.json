@@ -1,0 +1,85 @@
+{
+  "pentest-base": {
+    "skill_name": "Linux Internals & Bash",
+    "level_awarded": 5,
+    "xp_reward": 250,
+    "questions": [
+      {
+        "q": "Which command sets file permissions to read/write for owner, and read-only for group/others?",
+        "options": ["chmod 644 filename", "chmod 755 filename", "chmod 777 filename", "chmod 600 filename"],
+        "answer": 0
+      },
+      {
+        "q": "Which Linux virtual directory provides a dynamic interface to kernel process data?",
+        "options": ["/etc", "/dev", "/proc", "/var"],
+        "answer": 2
+      },
+      {
+        "q": "In a Bash pipeline, which operator redirects standard error (stderr) to standard output (stdout)?",
+        "options": ["2>&1", "> /dev/null", "|&", "1>&2"],
+        "answer": 0
+      }
+    ]
+  },
+  "pentest-web": {
+    "skill_name": "Web App Vulnerability Triage",
+    "level_awarded": 8,
+    "xp_reward": 500,
+    "questions": [
+      {
+        "q": "What is the primary defense against SQL Injection vulnerabilities?",
+        "options": ["Client-side regex validation", "Parameterized queries (Prepared Statements)", "Base64 encoding", "Blacklisting single quotes"],
+        "answer": 1
+      },
+      {
+        "q": "Which vulnerability occurs when an application exposes a reference to an internal object without access control?",
+        "options": ["CSRF", "IDOR / BOLA", "Clickjacking", "Reflected XSS"],
+        "answer": 1
+      },
+      {
+        "q": "Which HTTP cookie flag prevents client-side scripts from reading the session cookie?",
+        "options": ["Secure", "SameSite=Strict", "HttpOnly", "Domain"],
+        "answer": 2
+      }
+    ]
+  },
+  "pentest-net": {
+    "skill_name": "Network Sniffing & TCP/IP",
+    "level_awarded": 7,
+    "xp_reward": 450,
+    "questions": [
+      {
+        "q": "What is the correct flag sequence in a standard TCP three-way handshake?",
+        "options": ["SYN -> SYN-ACK -> ACK", "ACK -> SYN -> ACK", "SYN -> ACK -> FIN", "RST -> SYN -> ACK"],
+        "answer": 0
+      },
+      {
+        "q": "Which Nmap scan flag performs a TCP SYN Stealth scan?",
+        "options": ["-sT", "-sU", "-sS", "-sA"],
+        "answer": 2
+      },
+      {
+        "q": "Which Wireshark filter isolates HTTP POST requests exclusively?",
+        "options": ["http.request.method == \"POST\"", "tcp.port == 80", "ip.proto == 6", "http.response.code == 200"],
+        "answer": 0
+      }
+    ]
+  },
+  "default_task": {
+    "skill_name": "Technical Assessment",
+    "level_awarded": 5,
+    "xp_reward": 300,
+    "questions": [
+      {
+        "q": "What is the primary purpose of version control (Git) in collaborative engineering?",
+        "options": ["Compile binaries faster", "Track changes, manage branches, and enable revertible collaboration", "Encrypt database records", "Minify frontend bundles"],
+        "answer": 1
+      },
+      {
+        "q": "What does ACID stand for in relational database management systems?",
+        "options": ["Atomicity, Consistency, Isolation, Durability", "Asynchronous, Cached, Indexed, Distributed", "Authentication, Cryptography, Integrity, Decryption", "Allocation, Clustering, Indexing, Deduplication"],
+        "answer": 0
+      }
+    ]
+  }
+}
