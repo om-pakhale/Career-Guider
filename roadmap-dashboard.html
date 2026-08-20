@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>QuestPath | Multi-Branch Skill Tree Dashboard</title>
+  <title>QuestPath | College Finder & Tech Career Portal</title>
   
-  
+  <!-- Tailwind CSS & Fonts -->
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=JetBrains+Mono:wght@100..800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
   
@@ -13,219 +13,180 @@
     body { background-color: #020617; color: #dae2fd; font-family: 'Geist', sans-serif; overflow-x: hidden; }
     .glass-panel { background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
     .neon-cyan { box-shadow: 0 0 20px rgba(6, 182, 212, 0.25); }
-    .grid-bg {
-      background-image: 
-        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-      background-size: 32px 32px;
+    
+    @keyframes infinite-scroll {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    .carousel-track {
+      display: flex;
+      width: 200%;
+      animation: infinite-scroll 28s linear infinite;
+    }
+    .carousel-track:hover {
+      animation-play-state: paused;
     }
   </style>
 
-  
+  <!-- External Supabase Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="assets/js/supabase-config.js"></script>
-  <script src="assets/js/auth-guard.js"></script>
 </head>
-<body class="min-h-screen flex flex-col grid-bg selection:bg-cyan-500/30">
+<body class="min-h-screen flex flex-col selection:bg-cyan-500/30">
 
-  <header class="sticky top-0 z-50 flex justify-between items-center px-4 sm:px-6 py-3 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
-    <div class="flex items-center gap-3">
-      <div class="w-8 h-8 bg-gradient-to-br from-cyan-400 to-purple-500 rounded-lg flex items-center justify-center font-bold text-slate-950 neon-cyan text-sm">
+  <!-- ======================================================== -->
+  <!-- 1. STICKY NAVBAR -->
+  <!-- ======================================================== -->
+  <header class="sticky top-0 z-50 w-full flex justify-between items-center px-4 sm:px-8 py-3.5 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
+    
+    <!-- Brand Logo -->
+    <a href="index.html" class="flex items-center gap-2.5">
+      <div class="w-8 h-8 sm:w-9 sm:h-9 bg-gradient-to-br from-cyan-400 to-purple-500 rounded-lg flex items-center justify-center font-bold text-slate-950 neon-cyan text-sm">
         QP
       </div>
-      <span class="text-lg sm:text-xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-400">
+      <span class="text-lg sm:text-2xl font-extrabold tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-400">
         QuestPath
       </span>
-    </div>
+    </a>
 
-    
+    <!-- Center Mode Switcher (Active Exam Finder + Direct Roadmap Link) -->
     <div class="flex items-center bg-slate-950 p-1 rounded-full border border-slate-800">
-      <a href="index.html" class="px-3.5 sm:px-4 py-1.5 rounded-full text-slate-400 hover:text-cyan-300 font-bold text-xs flex items-center gap-1.5 transition">
+      <button class="px-3 sm:px-4 py-1.5 rounded-full bg-cyan-400 text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow">
         <span class="material-symbols-outlined text-sm">search</span> Exam Finder
-      </a>
-      <button class="px-3.5 sm:px-4 py-1.5 rounded-full bg-cyan-400 text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow">
-        <span class="material-symbols-outlined text-sm">account_tree</span> Roadmap Portal
       </button>
+      <a id="mode-portal-btn" href="roadmap-dashboard.html" class="px-3 sm:px-4 py-1.5 rounded-full text-slate-400 hover:text-cyan-300 font-bold text-xs flex items-center gap-1.5 transition">
+        <span class="material-symbols-outlined text-sm">account_tree</span> Roadmap Portal
+        <span id="portal-lock-icon" class="material-symbols-outlined text-[11px] text-slate-500 hidden">lock</span>
+      </a>
     </div>
 
+    <!-- Top-Right Auth / Profile Hub -->
+    <div id="navbar-auth-section" class="flex items-center">
+      <!-- Shown to Logged-Out Visitors -->
+      <a id="btn-login-cta" href="login.html" class="flex items-center gap-1.5 px-3.5 sm:px-5 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-bold text-xs sm:text-sm rounded-xl hover:opacity-90 transition shadow-lg shadow-purple-500/20">
+        <span class="material-symbols-outlined text-sm">account_circle</span>
+        <span>Sign In / Register</span>
+      </a>
 
-    <div class="flex items-center gap-3 sm:gap-4">
-      <div class="text-right hidden sm:block">
-        <p id="header-username" class="text-xs font-bold text-slate-200">Loading...</p>
-        <p id="header-title" class="text-[10px] text-cyan-400 font-mono">Adventurer</p>
-      </div>
-      <div class="w-20 sm:w-32 bg-slate-950 rounded-full h-2.5 p-0.5 border border-slate-800">
-        <div id="header-xp-bar" class="bg-gradient-to-r from-cyan-400 to-purple-500 h-full rounded-full w-[40%] transition-all duration-500"></div>
-      </div>
-      <div id="header-user-level" class="w-8 h-8 rounded-lg bg-cyan-950 border border-cyan-800 flex items-center justify-center font-bold text-cyan-300 text-xs font-mono">
-        Lv.1
-      </div>
+      <!-- Shown to Logged-In Users -->
+      <a id="nav-user-profile" href="profile.html" class="hidden items-center gap-2.5 px-3 py-1.5 rounded-xl bg-slate-900 border border-cyan-400/40 hover:border-cyan-400 transition">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-600 to-cyan-500 flex items-center justify-center text-sm shadow">
+          🥷
+        </div>
+        <div class="text-left hidden sm:block">
+          <p id="nav-username" class="text-xs font-bold text-slate-100 leading-tight">Student</p>
+          <span id="nav-user-level" class="text-[10px] font-mono text-cyan-400">Level 1</span>
+        </div>
+      </a>
     </div>
   </header>
 
-  <div class="flex flex-1">
-   
-      <a href="roadmap-dashboard.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-cyan-400/10 text-cyan-400 border border-cyan-400/30 text-xs font-bold">
-        <span class="material-symbols-outlined text-sm">account_tree</span> Skill Tree
-      </a>
-      <a href="leaderboard.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-slate-400 hover:text-slate-200 text-xs font-bold transition">
-        <span class="material-symbols-outlined text-sm">military_tech</span> Guild Hall (Leaderboard)
-      </a>
-      <a href="profile.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-slate-400 hover:text-slate-200 text-xs font-bold transition">
-        <span class="material-symbols-outlined text-sm">badge</span> Hero Profile & ATS Resume
-      </a>
-    </aside>
-
-    <!-- ======================================================== -->
-    <!-- 3. MAIN DASHBOARD AREA -->
-    <!-- ======================================================== -->
-    <main class="flex-1 p-4 sm:p-6 md:p-8 space-y-6 overflow-y-auto w-full max-w-7xl mx-auto">
-      
-      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-800/80 pb-4">
-        <div>
-          <h1 id="roadmap-title" class="text-xl sm:text-2xl font-extrabold text-slate-100">Personalized Skill Tree</h1>
-          <p id="roadmap-desc" class="text-xs text-slate-400 mt-1 max-w-2xl">
-            Multi-branch Directed Acyclic Graph (DAG) branching into specialized domains and converging to Capstone.
-          </p>
-        </div>
-        <div class="flex gap-2">
-          <span id="header-city-rank" class="px-3 py-1 bg-slate-900 text-purple-300 border border-slate-800 rounded-xl text-xs font-mono font-bold">Nagpur Rank</span>
-          <span class="px-3 py-1 bg-cyan-950 text-cyan-400 border border-cyan-800 rounded-xl text-xs font-mono font-bold">Live DAG</span>
-        </div>
-      </div>
-
-      
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
-        
-        <div class="lg:col-span-2 glass-panel p-4 sm:p-6 rounded-2xl relative overflow-x-auto">
-          <div class="flex justify-between items-center mb-4 border-b border-slate-800/60 pb-3">
-            <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-2">
-              <span class="material-symbols-outlined text-cyan-400 text-sm">hub</span> Technical Node Network
-            </h3>
-            <span class="text-[11px] text-slate-500 font-mono">Click active node to verify mastery</span>
-          </div>
-
-          <div id="skill-tree-container" class="flex flex-col items-center justify-center min-w-[300px]">
-           
-          </div>
-        </div>
-
-       
-        <div class="space-y-4">
-          <div class="glass-panel p-5 rounded-2xl space-y-3 border-purple-500/20">
-            <div class="flex justify-between items-center border-b border-slate-800/60 pb-2">
-              <h3 class="text-xs font-bold text-purple-300 uppercase tracking-wider flex items-center gap-2">
-                <span class="material-symbols-outlined text-purple-400 text-sm">psychology</span> Soft-Skills Side Quests
-              </h3>
-              <span class="text-[10px] text-purple-400 font-mono">Bonus XP</span>
-            </div>
-            
-            <div id="soft-skills-container" class="space-y-3">
-           
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </main>
-  </div>
-
   <!-- ======================================================== -->
-  <!-- 4. NODE DETAIL MODAL -->
+  <!-- 2. OFFLINE COLLEGE SEARCH SECTION -->
   <!-- ======================================================== -->
-  <div id="node-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
-    <div class="glass-panel w-full max-w-md rounded-2xl p-6 space-y-4 border border-cyan-500/30 shadow-2xl">
-      <div class="flex justify-between items-start">
-        <span id="modal-node-domain" class="text-[10px] font-bold px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800 uppercase">
-          Branch
-        </span>
-        <button onclick="closeNodeModal()" class="text-slate-400 hover:text-slate-200">
-          <span class="material-symbols-outlined text-sm">close</span>
-        </button>
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-12 flex-1 w-full">
+    <section class="text-center space-y-4">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/80 border border-cyan-800 text-cyan-400 text-xs font-mono">
+        <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span> Offline Cutoff Database Ready
       </div>
+      <h1 class="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight">
+        Find Colleges by <span class="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-400">Exam Marks & Cutoffs</span>
+      </h1>
+      <p class="text-slate-400 max-w-xl mx-auto text-xs sm:text-sm">
+        Search colleges instantly based on 10th/11th/12th Board Marks, JEE Main, NEET, MHT-CET, or State Entrance Exams.
+      </p>
 
-      <div>
-        <h3 id="modal-node-title" class="text-lg font-bold text-slate-100">Node Title</h3>
-        <p id="modal-node-summary" class="text-xs text-slate-400 mt-1">Node summary details...</p>
-      </div>
-
-      <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800 flex justify-between items-center text-xs">
-        <span class="text-slate-400">Node Reward</span>
-        <span id="modal-node-xp" class="text-cyan-400 font-mono font-bold">+500 XP</span>
-      </div>
-
-      <button id="modal-action-btn" class="w-full py-2.5 bg-gradient-to-r from-cyan-400 to-blue-500 text-slate-950 font-bold rounded-xl text-xs transition">
-        Verify Mastery ➔
-      </button>
-    </div>
-  </div>
-
-  <!-- ======================================================== -->
-  <!-- 5. DUAL-VERIFICATION WORKFLOW MODAL (QUIZ OR CERTIFICATE) -->
-  <!-- ======================================================== -->
-  <div id="node-verifier-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md overflow-y-auto">
-    <div class="glass-panel w-full max-w-xl rounded-2xl p-6 space-y-5 border border-cyan-500/30 shadow-2xl my-8">
-      
-      <div class="flex justify-between items-start">
-        <div>
-          <h3 id="verifier-modal-title" class="text-base sm:text-lg font-bold text-slate-100">Verify Mastery</h3>
-          <div class="flex gap-2 mt-1">
-            <span id="verifier-skill-badge" class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800">Skill Level</span>
-            <span id="verifier-xp-badge" class="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-950 text-purple-300 border border-purple-800">+XP</span>
+      <div class="glass-panel p-5 sm:p-6 rounded-2xl border border-cyan-500/20 text-left max-w-4xl mx-auto shadow-2xl mt-6">
+        <form id="college-filter-form" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-cyan-400 mb-1.5">Exam / Board Type</label>
+            <select id="filter-exam" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-slate-200 outline-none focus:border-cyan-400 transition">
+              <option value="all">All Exams</option>
+              <option value="JEE">JEE Main (Engg)</option>
+              <option value="NEET">NEET (Medical)</option>
+              <option value="MHT-CET">MHT-CET (Maharashtra)</option>
+              <option value="Board">10th / 11th / 12th Board</option>
+            </select>
           </div>
-        </div>
-        <button onclick="closeVerifierModal()" class="text-slate-400 hover:text-slate-200">
-          <span class="material-symbols-outlined text-sm">close</span>
-        </button>
-      </div>
 
-
-      <div class="flex bg-slate-900 p-1 rounded-xl border border-slate-800 gap-1">
-        <button id="tab-verify-quiz" onclick="switchVerifierTab('quiz')" class="flex-1 py-2 rounded-lg bg-cyan-400/10 text-cyan-400 font-bold text-xs border border-cyan-400/30 transition">
-          Method 1: Technical Check Quiz
-        </button>
-        <button id="tab-verify-cert" onclick="switchVerifierTab('cert')" class="flex-1 py-2 text-slate-400 hover:text-slate-200 font-bold text-xs transition">
-          Method 2: Upload Certificate Proof
-        </button>
-      </div>
-
-     
-      <div id="section-verify-quiz" class="space-y-4">
-        <p class="text-xs text-slate-400">Score at least 80% on this technical check to unlock this node and increment your verified skill level.</p>
-        <form id="quiz-questions-form" onsubmit="submitNodeQuiz(event)" class="space-y-3 max-h-72 overflow-y-auto pr-1">
-         
-        </form>
-        <button type="submit" form="quiz-questions-form" class="w-full py-3 bg-gradient-to-r from-cyan-400 to-blue-500 text-slate-950 font-bold rounded-xl text-xs sm:text-sm transition hover:opacity-90 neon-cyan">
-          Submit Answers & Verify Mastery
-        </button>
-      </div>
-
-      
-      <div id="section-verify-cert" class="hidden space-y-4">
-        <p class="text-xs text-slate-400">Have a certificate from Coursera, NPTEL, Infosys Springboard, or a verified institute? Upload the PDF or image proof.</p>
-        <form onsubmit="submitCertificateProof(event)" class="space-y-4">
-          <div class="border-2 border-dashed border-slate-700 hover:border-cyan-400/60 rounded-xl p-6 text-center space-y-2 cursor-pointer bg-slate-900/40">
-            <span class="material-symbols-outlined text-3xl text-cyan-400">upload_file</span>
-            <p class="text-xs text-slate-300 font-semibold">Choose certificate file (PDF, PNG, JPG)</p>
-            <input type="file" id="cert-file-input" accept=".pdf,.png,.jpg,.jpeg" required class="w-full text-xs text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-cyan-950 file:text-cyan-300 hover:file:bg-cyan-900"/>
+          <div>
+            <label class="block text-xs font-semibold text-cyan-400 mb-1.5">Your Score / Percentile</label>
+            <input type="number" step="0.1" id="filter-score" placeholder="e.g. 95.5" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-slate-200 outline-none focus:border-cyan-400 transition"/>
           </div>
-          <button type="submit" id="btn-upload-cert" class="w-full py-3 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-bold rounded-xl text-xs sm:text-sm transition hover:opacity-90 shadow-lg shadow-purple-500/20">
-            Submit Certificate for Instant Verification
-          </button>
+
+          <div>
+            <label class="block text-xs font-semibold text-cyan-400 mb-1.5">Reservation Category</label>
+            <select id="filter-category" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-slate-200 outline-none focus:border-cyan-400 transition">
+              <option value="all">All Categories</option>
+              <option value="General">General / Open</option>
+              <option value="OBC-NCL">OBC-NCL</option>
+              <option value="SC / ST">SC / ST</option>
+              <option value="EWS">EWS</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-cyan-400 mb-1.5">City / Region</label>
+            <input type="text" id="filter-city" placeholder="Nagpur, Pune, Mumbai..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-slate-200 outline-none focus:border-cyan-400 transition"/>
+          </div>
+
+          <div class="sm:col-span-2 md:col-span-4 mt-2">
+            <button type="submit" class="w-full py-3 bg-gradient-to-r from-cyan-400 to-blue-500 text-slate-950 font-bold rounded-xl text-xs sm:text-sm transition hover:opacity-90 neon-cyan flex items-center justify-center gap-2">
+              <span class="material-symbols-outlined text-sm">search</span> Search Matching Colleges (Offline)
+            </button>
+          </div>
         </form>
       </div>
 
-    </div>
-  </div>
+      <div id="results-wrapper" class="hidden text-left max-w-4xl mx-auto space-y-3 pt-4">
+        <div class="flex justify-between items-center">
+          <h3 class="text-sm font-bold text-slate-200">Matching Colleges Found:</h3>
+          <span id="results-count" class="text-xs text-cyan-400 font-mono">0 results</span>
+        </div>
+        <div id="results-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
+      </div>
+    </section>
 
-  <script src="assets/js/roadmaps/cybersecurity-roadmaps.js"></script>
-  <script src="assets/js/roadmaps/software-roadmaps.js"></script>
-  <script src="assets/js/roadmaps/aiml-roadmaps.js"></script>
-  <script src="assets/js/roadmaps/core-engineering.js"></script>
-  <script src="assets/js/roadmap-registry.js"></script>
-  <script src="assets/js/roadmap-graph.js"></script>
-  <script src="assets/js/node-verifier.js"></script>
-  <script src="assets/js/dashboard-backend.js"></script>
+    <!-- 3. SLIDING CAROUSEL -->
+    <section class="space-y-4 pt-6">
+      <div class="text-center space-y-1">
+        <span class="text-xs font-mono text-purple-400 uppercase tracking-widest">Platform Ecosystem</span>
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-100">Explore The QuestPath Roadmap Engine</h2>
+      </div>
+
+      <div class="w-full overflow-hidden relative py-4">
+        <div class="carousel-track gap-4">
+          <div class="w-72 sm:w-96 glass-panel p-5 rounded-2xl border-cyan-500/30 flex flex-col justify-between shrink-0 space-y-3">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-cyan-950 border border-cyan-800 flex items-center justify-center text-cyan-400">
+                <span class="material-symbols-outlined text-xl">account_tree</span>
+              </div>
+              <div>
+                <h4 class="font-bold text-sm text-slate-100">Multi-Branch Skill Trees</h4>
+                <p class="text-[10px] text-cyan-300 font-mono">DAG Graph Architecture</p>
+              </div>
+            </div>
+            <p class="text-xs text-slate-400">Interactive flowcharts branching into specialized technical tracks.</p>
+          </div>
+
+          <div class="w-72 sm:w-96 glass-panel p-5 rounded-2xl border-amber-500/30 flex flex-col justify-between shrink-0 space-y-3">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-amber-950 border border-amber-800 flex items-center justify-center text-amber-400">
+                <span class="material-symbols-outlined text-xl">military_tech</span>
+              </div>
+              <div>
+                <h4 class="font-bold text-sm text-slate-100">Guild Hall Leaderboard</h4>
+                <p class="text-[10px] text-amber-300 font-mono">City & College Ranks</p>
+              </div>
+            </div>
+            <p class="text-xs text-slate-400">Compete with verified engineering students from your region or campus.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Scripts -->
+  <script src="assets/js/home-backend.js"></script>
 </body>
 </html>
