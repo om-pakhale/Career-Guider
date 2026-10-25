@@ -27,6 +27,10 @@
       animation-play-state: paused;
     }
   </style>
+
+  <!-- External Supabase Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/supabase-config.js"></script>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-cyan-500/30">
 
@@ -57,20 +61,22 @@
     </div>
 
     <!-- Top-Right Auth / Profile Hub -->
-    <div id="navbar-auth-section">
-      <!-- Default: Shown to Logged-Out Visitors -->
+    <div id="navbar-auth-section" class="flex items-center">
+      <!-- Default: Shown Only to Unauthenticated / Logged-Out Visitors -->
       <a id="btn-login-cta" href="login.html" class="flex items-center gap-1.5 px-3.5 sm:px-5 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-bold text-xs sm:text-sm rounded-xl hover:opacity-90 transition shadow-lg shadow-purple-500/20">
         <span class="material-symbols-outlined text-sm">account_circle</span>
         <span>Sign In / Register</span>
       </a>
 
-      <!-- Logged-In User Profile Link -->
-      <a id="nav-user-profile" href="profile.html" class="hidden items-center gap-2.5 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 hover:border-cyan-400/50 transition">
-        <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-purple-950 border border-cyan-400 flex items-center justify-center text-sm shadow">
+      <!-- Shown Only When Logged In: Displays Avatar + Name and takes them to profile.html -->
+      <a id="nav-user-profile" href="profile.html" title="Click to view Hero Profile" class="hidden items-center gap-3 p-1.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-cyan-400/60 hover:bg-slate-800/80 transition cursor-pointer group">
+        <!-- Avatar Box -->
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-600 to-cyan-500 border border-cyan-400 flex items-center justify-center text-sm shadow group-hover:scale-105 transition">
           🥷
         </div>
-        <div class="text-left hidden sm:block">
-          <p id="nav-username" class="text-xs font-bold text-slate-200 leading-tight">Student</p>
+        <!-- User Info Text -->
+        <div class="text-left hidden sm:block pr-2">
+          <p id="nav-username" class="text-xs font-bold text-slate-100 group-hover:text-cyan-300 transition leading-tight">Student</p>
           <span id="nav-user-level" class="text-[10px] font-mono text-cyan-400">Lv.1 Novice</span>
         </div>
       </a>
@@ -198,8 +204,7 @@
 
   </main>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="assets/js/supabase-config.js"></script>
+  <!-- Load in exact order -->
   <script src="assets/js/home-backend.js"></script>
 </body>
 </html>
