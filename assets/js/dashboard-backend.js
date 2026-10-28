@@ -1,3 +1,9 @@
+document.getElementById('header-username').textContent = profile.full_name || 'Adventurer';
+document.getElementById('header-title').textContent = profile.title || 'Novice';
+document.getElementById('header-user-level').textContent = `Lv.${profile.level || 1}`;
+document.getElementById('header-city-rank').textContent = `${profile.city || 'Nagpur'} Rank`;
+javascript
+// assets/js/dashboard-backend.js
 
 const softSkillTasks = [
   { id: 'soft-git', title: 'Open-Source & Git Etiquette', domain: 'Collaboration', xp: 150, status: 'active', desc: 'Write semantic commit messages, structure pull requests, and resolve merge conflicts.' },
@@ -5,9 +11,13 @@ const softSkillTasks = [
   { id: 'soft-interview', title: 'System Design Mock Defense', domain: 'Communication', xp: 300, status: 'locked', desc: 'Explain trade-offs between SQL vs NoSQL schemas and defensive mitigation.' }
 ];
 
-
 async function loadDashboard() {
   try {
+    if (!window.supabase) {
+      console.error("Supabase client is not loaded.");
+      return;
+    }
+
     const { data: { user }, error: authError } = await supabase.auth.getUser();
 
     if (authError || !user) {
@@ -22,21 +32,32 @@ async function loadDashboard() {
       .single();
 
     if (dbError || !profile) {
-      console.error("Profile not found:", dbError?.message);
-      return;
+      console.warn("Profile not found:", dbError?.message);
     }
 
- 
-    document.getElementById('header-username').textContent = profile.full_name || 'Adventurer';
-    document.getElementById('header-title').textContent = profile.title || 'Novice';
-    document.getElementById('header-user-level').textContent = `Lv.${profile.level || 1}`;
-    document.getElementById('header-city-rank').textContent = `${profile.city || 'Nagpur'} Rank`;
+    const p = profile || {};
 
-   
-    const currentXp = profile.xp || 0;
-    const progressPercent = (currentXp % 500) / 5;
-    document.getElementById('header-xp-bar').style.width = `${Math.min(100, Math.max(10, progressPercent))}%`;
+    // --- Null-Safe Header Updates ---
+    const usernameEl = document.getElementById('header-username');
+    if (usernameEl) usernameEl.textContent = p.full_name || 'Adventurer';
 
+    const titleEl = document.getElementById('header-title');
+    if (titleEl) titleEl.textContent = p.title || 'Novice';
+
+    const userLevelEl = document.getElementById('header-user-level');
+    if (userLevelEl) userLevelEl.textContent = `Lv.${p.level || 1}`;
+
+    const cityRankEl = document.getElementById('header-city-rank');
+    if (cityRankEl) cityRankEl.textContent = `${p.city || 'Nagpur'} Rank`;
+
+    const xpBar = document.getElementById('header-xp-bar');
+    if (xpBar) {
+      const currentXp = p.xp || 0;
+      const progressPercent = (currentXp % 500) / 5;
+      xpBar.style.width = `${Math.min(100, Math.max(10, progressPercent))}%`;
+    }
+
+    // --- Completions Fetch ---
     const { data: completions } = await supabase
       .from('student_node_completions')
       .select('node_id')
@@ -44,16 +65,22 @@ async function loadDashboard() {
 
     const completedNodeIds = new Set((completions || []).map(c => c.node_id));
 
-  
-    const trackKey = window.RoadmapRegistry.resolveTrack(profile.selected_domain || profile.department || 'cyber_pentester');
-    renderDynamicSkillTree(trackKey, completedNodeIds);
+    // --- Render Dynamic Skill Tree Flowchart ---
+    if (window.RoadmapRegistry && typeof window.RoadmapRegistry.resolveTrack === 'function') {
+      const trackKey = window.RoadmapRegistry.resolveTrack(p.selected_domain || p.department || 'cyber_pentester');
+      if (typeof renderDynamicSkillTree === 'function') {
+        renderDynamicSkillTree(trackKey, completedNodeIds);
+      }
+    } else if (typeof renderDynamicSkillTree === 'function') {
+      renderDynamicSkillTree('cyber_pentester', completedNodeIds);
+    }
+
     renderSoftSkills();
 
   } catch (err) {
     console.error("Dashboard initialization error:", err);
   }
 }
-
 
 function renderSoftSkills() {
   const container = document.getElementById('soft-skills-container');
